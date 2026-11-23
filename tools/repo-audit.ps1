@@ -15,19 +15,18 @@ param(
 
 $ErrorActionPreference = "Continue"
 $RequiredFiles = @("README.md", "LICENSE", ".gitignore", ".gitattributes")
-# 只校验五段编号是否存在；段落名称允许带修饰（如“目录对应”“环境与编译”）
 $RequiredSections = @("## 1.", "## 2.", "## 3.", "## 4.", "## 5.")
 
 function Test-RepoFile {
   param($Repo, $Path)
-  gh api "repos/$Owner/$Repo/contents/$Path" --silent 2>$null | Out-Null
-  return ($LASTEXITCODE -eq 0)
+  $sha = (gh api "repos/$Owner/$Repo/contents/$Path" --jq '.sha' 2>$null | Out-String).Trim()
+  return ($sha.Length -eq 40)
 }
 
 function Get-RepoText {
   param($Repo, $Path)
   $out = gh api "repos/$Owner/$Repo/contents/$Path" -H "Accept: application/vnd.github.raw" 2>$null | Out-String
-  if($LASTEXITCODE -ne 0){ return "" }
+  if($LASTEXITCODE -ne 0){ return $null }
   return $out
 }
 
@@ -42,8 +41,13 @@ foreach($r in ($repos | Where-Object { -not $_.isArchived })) {
 
   $readme = Get-RepoText $r.name "README.md"
   $missSec = @()
-  foreach($s in $RequiredSections) {
-    if($readme -notmatch [regex]::Escape($s)) { $missSec += ($s -replace '## ').TrimEnd('.') }
+  $readFail = $false
+  if($null -eq $readme -or $readme.Trim().Length -eq 0) {
+    $readFail = $true
+  } else {
+    foreach($s in $RequiredSections) {
+      if($readme -notmatch [regex]::Escape($s)) { $missSec += ($s -replace '## ').TrimEnd('.') }
+    }
   }
 
   $mb = [math]::Round($r.diskUsage / 1024, 1)
@@ -54,7 +58,8 @@ foreach($r in ($repos | Where-Object { -not $_.isArchived })) {
 
   $issues = @()
   if($missing.Count -gt 0)  { $issues += "缺文件: " + ($missing -join ",") }
-  if($missSec.Count -gt 0)  { $issues += "README 缺段: " + ($missSec -join ",") }
+  if($readFail)             { $issues += "README 读取失败（网络/权限）" }
+  elseif($missSec.Count -gt 0) { $issues += "README 缺段: " + ($missSec -join ",") }
   if($topicCount -lt 3)     { $issues += "topics=$topicCount<3" }
   if(-not $r.description)   { $issues += "无描述" }
   if($needSummary -and -not $hasSummary) { $issues += ">50MB 缺 EXCLUDED_FILES.md" }
