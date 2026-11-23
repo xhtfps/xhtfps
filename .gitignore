@@ -1,0 +1,5 @@
+# 仓库内容均为 Markdown 文档
+*.tmp
+*.bak
+.DS_Store
+Thumbs.db
