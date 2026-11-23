@@ -1,6 +1,39 @@
+<div align="center">
+
 # XHTFPS · 嵌入式 / AI 视觉项目库
 
-个人工程总索引（GitHub 项目库入口）。全部仓库按“项目”归并：一个项目一个仓库，课程实验、基础模板作为子目录并入所属项目库，不再单独开仓库。统一格式与体积红线见 [`REPO-STANDARD.md`](https://github.com/xhtfps/xhtfps/blob/main/REPO-STANDARD.md)，全库体检用 [`tools/repo-audit.ps1`](https://github.com/xhtfps/xhtfps/blob/main/tools/repo-audit.ps1)，机器可读索引是 [`catalog.json`](https://github.com/xhtfps/xhtfps/blob/main/catalog.json)，每日体检结果在 [`HEALTH.md`](https://github.com/xhtfps/xhtfps/blob/main/HEALTH.md)。可复用驱动在 [`bsp-libs`](https://github.com/xhtfps/bsp-libs)，跨仓排错与手册索引在 [`notes`](https://github.com/xhtfps/notes)。
+**一个项目一个仓库：定位、边界、体积与体检结果都在这张地图里**
+
+![repos](https://img.shields.io/badge/repos-24%20content%20%2B%201%20index-0b5cad?style=flat-square)
+![audit](https://img.shields.io/badge/audit-daily%20CI-6f42c1?style=flat-square)
+![license](https://img.shields.io/badge/license-MIT-green?style=flat-square)
+
+[项目库站点](https://xhtfps.github.io/xhtfps/) · [仓库地图](#1-仓库地图) · [仓库边界](#2-容易混的仓库边界在哪) · [格式规范](REPO-STANDARD.md)
+
+</div>
+
+## 这个仓库解决什么
+
+仓库一多，最先失控的不是代码，而是**边界**：同一份模板存了三份、同一个坑在五个 README 里各写一遍、半年后不知道某个仓该不该删。这里用一张自动生成的仓库地图 + 一份格式规范，把「哪个仓负责什么、体积多大、状态如何」固定下来。
+
+## 亮点
+
+- **地图自动生成**：`catalog.json` 是唯一数据源，README 表格由 `tools/build-index.ps1` 重写，不手改。
+- **每日体检**：`catalog-audit.yml` 每天北京时间 10:00 重跑索引与 `health-check.ps1`，有变化自动提交结果。
+- **边界可判定**：容易混的 10 组仓库写明区分口径（按板卡 / 按赛事 / 自己写的 vs 厂商资料）。
+- **体积可追溯**：每次瘦身都留 `base_commit`，`notes/offload.json` 点开即能取回，不做 force push。
+
+## 结构
+
+```mermaid
+flowchart LR
+  R["各仓库 README<br/>+ git trees"] --> B["build-index.ps1"]
+  B --> C["catalog.json<br/>机器可读"]
+  C --> M["README §1 仓库地图"]
+  R --> H["health-check.ps1"]
+  H --> HH["HEALTH.md"]
+  CI["catalog-audit.yml<br/>每日 10:00"] --> B
+```
 
 <!-- CATALOG:START -->
 ## 1. 仓库地图（24 个内容仓库 + 本索引）
@@ -11,23 +44,23 @@
 
 | 仓库 | 定位 | 可见性 | 芯片 / 板卡 | 技术栈 | 体积 | 状态 |
 | --- | --- | --- | --- | --- | --- | --- |
-| [esp32-k230-ai](https://github.com/xhtfps/esp32-k230-ai) | ESP32-S3 与 K230 双板协作的边缘 AI 视觉工程（双板联调、机器人集成、语音交互） | 公开 | ESP32-S3 + K230 / 自制双板 | ESP-IDF · CanMV MicroPython | 47 MB | 维护中 |
+| [esp32-k230-ai](https://github.com/xhtfps/esp32-k230-ai) | ESP32-S3 与 K230 双板协作的边缘 AI 视觉工程（双板联调、机器人集成、语音交互） | 公开 | ESP32-S3 + K230 / 自制双板 | ESP-IDF · CanMV MicroPython | 24 MB | 维护中 |
 | [freertos-labs](https://github.com/xhtfps/freertos-labs) | STM32F407 + FreeRTOS 课程实验全集（00 工程模板 + 01-10 实验） | 公开 | STM32F407ZGT6 / 正点原子 探索者 V3 | Keil MDK · FreeRTOS 10 | 142 MB | 已完成 |
 | [stm32-cubemx-labs](https://github.com/xhtfps/stm32-cubemx-labs) | STM32 CubeMX HAL 工程集（LED/KEY/TIM/USART/ADC/FreeRTOS）与标准外设库工程模板 | 公开 | STM32（型号见各工程） / 无固定板卡 | CubeMX HAL · 标准外设库 | 228 MB | 新建 |
-| [stm32f4-projects](https://github.com/xhtfps/stm32f4-projects) | STM32F407 工程集：基地调试程序（5 个子工程）、工程模板、往年与电赛题目 | 公开 | STM32F407ZGT6 / 正点原子 探索者 V3 | Keil MDK · HAL/标准库 | 219 MB | 维护中 |
+| [stm32f4-projects](https://github.com/xhtfps/stm32f4-projects) | STM32F407 工程集：基地调试程序（5 个子工程）、工程模板、往年与电赛题目 | 公开 | STM32F407ZGT6 / 正点原子 探索者 V3 | Keil MDK · HAL/标准库 | 214 MB | 维护中 |
 | [stm32h7-projects](https://github.com/xhtfps/stm32h7-projects) | STM32H743 工程集：裸机、FreeRTOS、LVGL 模板，LTDC 液晶驱动，谐波测量结项 | 公开 | STM32H743 / AT070TN83 7 寸屏 | Keil MDK · HAL · FreeRTOS · LVGL | 56 MB | 维护中 |
-| [zynq-fpga-projects](https://github.com/xhtfps/zynq-fpga-projects) | ZYNQ-7020 FPGA 基础工程集：呼吸灯、按键、数码管、RAM/FIFO/时钟 IP 核 | 公开 | ZYNQ-7020 / 正点原子 领航者 | Vivado · Verilog/VHDL | 72 MB | 维护中 |
+| [zynq-fpga-projects](https://github.com/xhtfps/zynq-fpga-projects) | ZYNQ-7020 FPGA 基础工程集：呼吸灯、按键、数码管、RAM/FIFO/时钟 IP 核 | 公开 | ZYNQ-7020 / 正点原子 领航者 | Vivado · Verilog/VHDL | 43 MB | 维护中 |
 
 ### 1.2 具体项目（7）
 
 | 仓库 | 定位 | 可见性 | 芯片 / 板卡 | 技术栈 | 体积 | 状态 |
 | --- | --- | --- | --- | --- | --- | --- |
 | [dance-robot-esp32](https://github.com/xhtfps/dance-robot-esp32) | ESP32 舞蹈机器人：主控固件、视觉模块、机械固件与比赛文档 | 公开 | ESP32 / 自制舞蹈机器人整机 | ESP-IDF · 舵机控制 | 20 MB | 维护中 |
-| [fad-vision-research](https://github.com/xhtfps/fad-vision-research) | 跨域目标检测研究：ACDC 基准实验、FAD 频域自适应检测、AFPN 参考实现与评估脚本 | 私有 | GPU 训练环境 / ACDC 数据集 | PyTorch · ACDC/FAD/AFPN | 94 MB | 进行中 |
+| [fad-vision-research](https://github.com/xhtfps/fad-vision-research) | 跨域目标检测研究：ACDC 基准实验、FAD 频域自适应检测、AFPN 参考实现与评估脚本 | 私有 | GPU 训练环境 / ACDC 数据集 | PyTorch · ACDC/FAD/AFPN | 47 MB | 进行中 |
 | [lissajous-figure-device](https://github.com/xhtfps/lissajous-figure-device) | 2026 电赛 F 题：基于 STM32F407 的李萨如图形显示控制装置 | 公开 | STM32F407 / 自建装置（DAC 输出） | Keil MDK · DAC/DMA | 14 MB | 维护中 |
 | [nir-moisture-meter](https://github.com/xhtfps/nir-moisture-meter) | 在线式双波长近红外水分仪：STM32 固件 + 上位机 + Modbus 协议 + 硬件/EDA 交付资料 | 私有 | STM32 / 自建近红外水分仪 | Keil MDK · Modbus · 上位机 | 28 MB | 维护中 |
 | [RLC_dac_study_flash](https://github.com/xhtfps/RLC_dac_study_flash) | RLC 阻抗测量仪（结项）：F407 DAC 激励 + 双 ADC 采样 + FFT 解算，附 AD9959/ADF4351/AD8370 驱动与 CMSIS-DSP | 公开 | STM32F407ZGT6 / 基地板 | Keil MDK · HAL · CMSIS-DSP | 28 MB | 已完成 |
-| [smart_robot](https://github.com/xhtfps/smart_robot) | 智能机器人（软件侧）：语音交互 + Whisper 识别 + GPT-SoVITS 合成 + OpenCV/YOLO 视觉 + URDF 模型 | 私有 | PC（外接麦克风/摄像头） / — | Python · Whisper · GPT-SoVITS · YOLO | 52 MB | 维护中 |
+| [smart_robot](https://github.com/xhtfps/smart_robot) | 智能机器人（软件侧）：语音交互 + Whisper 识别 + GPT-SoVITS 合成 + OpenCV/YOLO 视觉 + URDF 模型 | 私有 | PC（外接麦克风/摄像头） / — | Python · Whisper · GPT-SoVITS · YOLO | 24 MB | 维护中 |
 | [STM32F407-LVGL-SSD1963](https://github.com/xhtfps/STM32F407-LVGL-SSD1963) | 六足平衡机器人（STM32F407 + LVGL + SSD1963 + PS2 手柄 + 触摸屏 UI） | 私有 | STM32F407ZGT6 / 六足机器人自建板 | Keil MDK · LVGL · SSD1963 | 57 MB | 维护中 |
 
 ### 1.3 竞赛与课程（5）
@@ -35,17 +68,17 @@
 | 仓库 | 定位 | 可见性 | 芯片 / 板卡 | 技术栈 | 体积 | 状态 |
 | --- | --- | --- | --- | --- | --- | --- |
 | [dl-pytorch-course](https://github.com/xhtfps/dl-pytorch-course) | PyTorch 深度学习课程：CNN/LSTM 代码、数据与课堂笔记 | 公开 | PC/GPU / — | PyTorch 2.x · CNN/LSTM | 36 MB | 已完成 |
-| [electronics-competition](https://github.com/xhtfps/electronics-competition) | 电赛/校赛项目与资料库：示波器、信号发生器、超声波测距、2025 G 题（含第三方资料，私有） | 私有 | STM32F407 等 / 历年赛题平台 | Keil MDK · STM32 | 132 MB | 维护中 |
+| [electronics-competition](https://github.com/xhtfps/electronics-competition) | 电赛/校赛项目与资料库：示波器、信号发生器、超声波测距、2025 G 题（含第三方资料，私有） | 私有 | STM32F407 等 / 历年赛题平台 | Keil MDK · STM32 | 97 MB | 维护中 |
 | [math-modeling-2025](https://github.com/xhtfps/math-modeling-2025) | 2025 数模 B 题代码：学生成绩与焦虑相关问题 Q1-Q4（Python） | 私有 | PC / — | Python · 数模求解 | 3 MB | 已完成 |
 | [opencv-basics](https://github.com/xhtfps/opencv-basics) | OpenCV + Python 图像处理入门代码与示例 | 公开 | PC / — | Python · OpenCV | 1 MB | 已完成 |
-| [shuweibei-cup-b2026](https://github.com/xhtfps/shuweibei-cup-b2026) | 2026 数维杯国际赛 B 题：四问求解代码、模型推导报告、论文多版修改稿与支撑材料 | 私有 | PC / — | Python · 数模求解 | 129 MB | 进行中 |
+| [shuweibei-cup-b2026](https://github.com/xhtfps/shuweibei-cup-b2026) | 2026 数维杯国际赛 B 题：四问求解代码、模型推导报告、论文多版修改稿与支撑材料 | 私有 | PC / — | Python · 数模求解 | 100 MB | 进行中 |
 
 ### 1.4 资料库（4）
 
 | 仓库 | 定位 | 可见性 | 芯片 / 板卡 | 技术栈 | 体积 | 状态 |
 | --- | --- | --- | --- | --- | --- | --- |
-| [hardware-course-materials](https://github.com/xhtfps/hardware-course-materials) | 硬件零基础课程资料：课件、Multisim 仿真工程、OrCAD/Altium 封装库与辅助表格 | 私有 | — / 硬件零基础课程 | Multisim · OrCAD/Altium（只读） | 14 MB | 只读归档 |
-| [stm32f4-reference-materials](https://github.com/xhtfps/stm32f4-reference-materials) | STM32F407 参考资料与例程：基地板调试程序、AD9959、LVGL、FreeRTOS 模板、示波器工程 | 私有 | STM32F407 / 本机资料盘归档 | 例程/手册（只读） | 200 MB | 只读归档 |
+| [hardware-course-materials](https://github.com/xhtfps/hardware-course-materials) | 硬件零基础课程资料：课件、Multisim 仿真工程、OrCAD/Altium 封装库与辅助表格 | 私有 | — / 硬件零基础课程 | Multisim · OrCAD/Altium（只读） | 6 MB | 只读归档 |
+| [stm32f4-reference-materials](https://github.com/xhtfps/stm32f4-reference-materials) | STM32F407 参考资料与例程：基地板调试程序、AD9959、LVGL、FreeRTOS 模板、示波器工程 | 私有 | STM32F407 / 本机资料盘归档 | 例程/手册（只读） | 117 MB | 只读归档 |
 | [stm32f407-board-materials](https://github.com/xhtfps/stm32f407-board-materials) | 正点原子探索者 V3（STM32F407ZGT6）开发板资料：文档、原理图、例程与硬件资料 | 私有 | STM32F407ZGT6 / 正点原子 探索者 V3 | 厂商文档/原理图/例程（只读） | 104 MB | 只读归档 |
 | [zynq-navigator-board](https://github.com/xhtfps/zynq-navigator-board) | 正点原子领航者 ZYNQ 开发板资料索引：教程、原理图、引脚表、FPGA/Vitis/Linux 源码（第三方资料） | 私有 | ZYNQ-7020 / 正点原子 领航者 | 厂商文档/源码（只读） | 52 MB | 只读归档 |
 
@@ -53,8 +86,8 @@
 
 | 仓库 | 定位 | 可见性 | 芯片 / 板卡 | 技术栈 | 体积 | 状态 |
 | --- | --- | --- | --- | --- | --- | --- |
-| [bsp-libs](https://github.com/xhtfps/bsp-libs) | 嵌入式驱动库与板级硬件约定（drivers/ + hardware/pinmap.csv/BOM.csv） | 私有 | — / — | C · PowerShell · CSV | 120 KB | 在建 |
-| [notes](https://github.com/xhtfps/notes) | 嵌入式调试知识库：跨仓排错速查 + 手册索引（脚本生成） | 私有 | — / — | Markdown · PowerShell | 263 KB | 在用 |
+| [bsp-libs](https://github.com/xhtfps/bsp-libs) | 嵌入式驱动库与板级硬件约定（drivers/ + hardware/pinmap.csv/BOM.csv） | 私有 | — / — | C · PowerShell · CSV | 213 KB | 在建 |
+| [notes](https://github.com/xhtfps/notes) | 嵌入式调试知识库：跨仓排错速查 + 手册索引（脚本生成） | 私有 | — / — | Markdown · PowerShell | 308 KB | 在用 |
 
 > 体积 = HEAD 检出文件的真实体积（`git/trees?recursive=1` 求和）；`diskUsage`（含历史）仅作回退。分类、芯片、状态的权威口径在 `tools/catalog-rules.json`。
 
@@ -159,8 +192,7 @@
 | 8 | 没有查询入口，只能人眼看 JSON | 已解决 | `db.py` 命令行 + 豆包 Skill（见 §9）；CI 每夜重建并自检 |
 | 9 | AD9959 与 ADS1256 引脚硬冲突（PF2/PF4 双用） | 已解决（方案级） | [`bsp-libs/hardware/PIN-CONFLICTS.md`](https://github.com/xhtfps/bsp-libs/blob/main/hardware/PIN-CONFLICTS.md) 给出三条路线；方案 A 落成 `example_f407_dual` **v2**（ADS1256 只挪 SCLK→PF7、DOUT→PF9，驱动改两个宏），SPI1 版本降为备选；**未上板验证** |
 | 10 | 分支保护未开 | 有意不改 | 单人仓库开了会阻塞自己 push，靠提交习惯约束 |
-| 11 | 单个 85 MB 大文件（`firefly_e10_s1110.pth`）在本机取不回 | **未解决**（有绕法） | 六条通道实测：contents/git-blobs raw 都在 38–70 MB 处被截断、不支持 Range（实测 492 KB/s）；`raw.githubusercontent` 对私有仓直接重置；但 `git clone --depth 1 --filter=blob:none` **现在 2 秒可通**（早前“clone 不可用”结论已推翻），只是该文件已移出 HEAD，按 `base_commit` 拉单 blob 同样被截断。稳定通道只有浏览器下载，详见 [`smart_robot/WEIGHTS.md`](https://github.com/xhtfps/smart_robot/blob/main/WEIGHTS.md) §4 |
-| 12 | 所有写操作依赖本机 token，且本机 `github.com` 被 DNS 污染 | 部分缓解 | 读侧全部有 CI 兜底（每夜重建 catalog/HEALTH/LINKS/embedded.db）；本地脚本必须先 `NO_PROXY='*'` 清代理 |
+| 11 | 所有写操作依赖本机 token，且本机 `github.com` 被 DNS 污染 | 部分缓解 | 读侧全部有 CI 兜底（每夜重建 catalog/HEALTH/LINKS/embedded.db）；本地脚本必须先 `NO_PROXY='*'` 清代理 |
 
 ## 7. 命名约定
 
@@ -227,16 +259,17 @@ python .\tools\db.py sql "select repo,head_mb from repos where head_mb>150"
 
 口径说明：`status_since` 取“状态落定的日期”，结项/归档类目前用最近推送日近似（精确日期可在 `catalog-rules.json` 里加 `status_since` 覆盖）；`docs` 里 `offloaded` 条目的 `url` 一定指向移出前的提交，不是死链。
 
-## 10. 段落级检索（`tools/semantic.py`）
+## 路线图
 
-`db.py` 只能查到“哪张表里有什么”，查不到“这句话写在哪个文件哪一段”。`semantic.py` 补这一层：
+- [x] 索引与体检自动化，README 表格不再手写
+- [x] 24 个内容仓统一 topics、README 五段、排除摘要
+- [ ] 把「仓库外观规范」（徽章、结构图、路线图）纳入自动体检
+- [ ] 继续压 `stm32-cubemx-labs`、`stm32f4-projects` 两个大仓的体积
 
-```powershell
-python .\tools\semantic.py build --embedding          # 建索引（BM25 + 向量）
-python .\tools\semantic.py query "AD7606 过采样时序"
-python .\tools\semantic.py query "PGA112 增益怎么设" -k 3
-```
+## 参与与反馈
 
-索引来源全部是本地文件：`embedded.db` 的 repos/docs/troubles/drivers/pins/usages 六张表、`bsp-libs` 下所有 Markdown（表格按行拆块）、`notes/manuals.md` 台账行。默认混合打分 = 0.4×BM25 + 0.6×余弦（`BAAI/bge-small-zh-v1.5`，95 MB，首次自动下载后走本地缓存）；没装 `sentence-transformers` 时自动退化成纯 BM25，不报错。
+本仓是个人项目索引，不对外接收 PR。发现索引与实际不符，按 [Issue 模板](.github/ISSUE_TEMPLATE) 提；安全事项见 [SECURITY.md](SECURITY.md)。
 
-`search-index.json`（约 17 MB，含向量）写进 `.gitignore`，不提交——它可由上面第一条命令 30 秒内重建。
+## 许可证
+
+本仓文档与脚本以 [MIT](LICENSE) 分发；被索引的各仓库按其自身许可证。

@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "owner": "xhtfps",
-  "generated_at": "2026-11-23T18:31:08+08:00",
+  "generated_at": "2026-11-23T20:05:20+08:00",
   "repo_count": 25,
   "repos": [
     {
@@ -12,8 +12,8 @@
       "stack": "C · PowerShell · CSV",
       "status": "在建",
       "visibility": "私有",
-      "size_kb": 48,
-      "head_size_kb": 120,
+      "size_kb": 78,
+      "head_size_kb": 213,
       "language": "C",
       "license": "MIT",
       "topics": [
@@ -31,7 +31,8 @@
       "peripherals": [
         "AD9959",
         "ADS1256",
-        "MPU6050"
+        "MPU6050",
+        "CAN"
       ]
     },
     {
@@ -42,8 +43,8 @@
       "stack": "ESP-IDF · 舵机控制",
       "status": "维护中",
       "visibility": "公开",
-      "size_kb": 10934,
-      "head_size_kb": 20230,
+      "size_kb": 10945,
+      "head_size_kb": 20244,
       "language": "Assembly",
       "license": "NOASSERTION",
       "topics": [
@@ -72,8 +73,8 @@
       "stack": "PyTorch 2.x · CNN/LSTM",
       "status": "已完成",
       "visibility": "公开",
-      "size_kb": 35123,
-      "head_size_kb": 36724,
+      "size_kb": 35136,
+      "head_size_kb": 36738,
       "language": "Python",
       "license": "MIT",
       "topics": [
@@ -97,8 +98,8 @@
       "stack": "Keil MDK · STM32",
       "status": "维护中",
       "visibility": "私有",
-      "size_kb": 85420,
-      "head_size_kb": 135312,
+      "size_kb": 85431,
+      "head_size_kb": 99018,
       "language": "C",
       "license": "NOASSERTION",
       "topics": [
@@ -128,8 +129,8 @@
       "stack": "ESP-IDF · CanMV MicroPython",
       "status": "维护中",
       "visibility": "公开",
-      "size_kb": 26011,
-      "head_size_kb": 48389,
+      "size_kb": 26023,
+      "head_size_kb": 24551,
       "language": "C",
       "license": "MIT",
       "topics": [
@@ -147,6 +148,7 @@
       "html_url": "https://github.com/xhtfps/esp32-k230-ai",
       "readme_sections": 5,
       "peripherals": [
+        "LVGL",
         "USB",
         "CAN"
       ]
@@ -159,8 +161,8 @@
       "stack": "PyTorch · ACDC/FAD/AFPN",
       "status": "进行中",
       "visibility": "私有",
-      "size_kb": 41448,
-      "head_size_kb": 96322,
+      "size_kb": 41459,
+      "head_size_kb": 48181,
       "language": "Jupyter Notebook",
       "license": "NOASSERTION",
       "topics": [
@@ -187,8 +189,8 @@
       "stack": "Keil MDK · FreeRTOS 10",
       "status": "已完成",
       "visibility": "公开",
-      "size_kb": 2379,
-      "head_size_kb": 145451,
+      "size_kb": 2391,
+      "head_size_kb": 145466,
       "language": "C",
       "license": "MIT",
       "topics": [
@@ -220,9 +222,9 @@
       "stack": "Multisim · OrCAD/Altium（只读）",
       "status": "只读归档",
       "visibility": "私有",
-      "size_kb": 9479,
-      "head_size_kb": 13954,
-      "language": "",
+      "size_kb": 9489,
+      "head_size_kb": 6615,
+      "language": "Python",
       "license": "NOASSERTION",
       "topics": [
         "electronics",
@@ -244,8 +246,8 @@
       "stack": "Keil MDK · DAC/DMA",
       "status": "维护中",
       "visibility": "公开",
-      "size_kb": 2847,
-      "head_size_kb": 14812,
+      "size_kb": 2859,
+      "head_size_kb": 14826,
       "language": "C",
       "license": "NOASSERTION",
       "topics": [
@@ -275,8 +277,8 @@
       "stack": "Python · 数模求解",
       "status": "已完成",
       "visibility": "私有",
-      "size_kb": 3073,
-      "head_size_kb": 3317,
+      "size_kb": 3084,
+      "head_size_kb": 3332,
       "language": "Python",
       "license": "NOASSERTION",
       "topics": [
@@ -299,8 +301,8 @@
       "stack": "Keil MDK · Modbus · 上位机",
       "status": "维护中",
       "visibility": "私有",
-      "size_kb": 7771,
-      "head_size_kb": 28580,
+      "size_kb": 7785,
+      "head_size_kb": 28594,
       "language": "C",
       "license": "NOASSERTION",
       "topics": [
@@ -326,10 +328,10 @@
       "stack": "Markdown · PowerShell",
       "status": "在用",
       "visibility": "私有",
-      "size_kb": 83,
-      "head_size_kb": 263,
+      "size_kb": 140,
+      "head_size_kb": 308,
       "language": "PowerShell",
-      "license": "",
+      "license": "NOASSERTION",
       "topics": [
         "knowledge-base"
       ],
@@ -351,8 +353,8 @@
       "stack": "Python · OpenCV",
       "status": "已完成",
       "visibility": "公开",
-      "size_kb": 1469,
-      "head_size_kb": 1469,
+      "size_kb": 1481,
+      "head_size_kb": 0,
       "language": "Python",
       "license": "NOASSERTION",
       "topics": [
@@ -376,8 +378,8 @@
       "stack": "Keil MDK · HAL · CMSIS-DSP",
       "status": "已完成",
       "visibility": "公开",
-      "size_kb": 4776,
-      "head_size_kb": 28256,
+      "size_kb": 4788,
+      "head_size_kb": 28270,
       "language": "C",
       "license": "MIT",
       "topics": [
@@ -405,10 +407,10 @@
       "stack": "Python · 数模求解",
       "status": "进行中",
       "visibility": "私有",
-      "size_kb": 69102,
-      "head_size_kb": 131667,
+      "size_kb": 69114,
+      "head_size_kb": 102522,
       "language": "Python",
-      "license": "",
+      "license": "NOASSERTION",
       "topics": [
         "competition",
         "math-modeling"
@@ -418,7 +420,7 @@
       "pushed_at": "2026-11-23",
       "status_since": "",
       "html_url": "https://github.com/xhtfps/shuweibei-cup-b2026",
-      "readme_sections": 4,
+      "readme_sections": 5,
       "peripherals": []
     },
     {
@@ -429,8 +431,8 @@
       "stack": "Python · Whisper · GPT-SoVITS · YOLO",
       "status": "维护中",
       "visibility": "私有",
-      "size_kb": 280887,
-      "head_size_kb": 53242,
+      "size_kb": 280910,
+      "head_size_kb": 25016,
       "language": "Python",
       "license": "NOASSERTION",
       "topics": [
@@ -460,10 +462,10 @@
       "stack": "CubeMX HAL · 标准外设库",
       "status": "新建",
       "visibility": "公开",
-      "size_kb": 21353,
-      "head_size_kb": 233593,
+      "size_kb": 21366,
+      "head_size_kb": 233609,
       "language": "C",
-      "license": "",
+      "license": "NOASSERTION",
       "topics": [
         "cubemx",
         "project-collection"
@@ -473,7 +475,7 @@
       "pushed_at": "2026-11-23",
       "status_since": "",
       "html_url": "https://github.com/xhtfps/stm32-cubemx-labs",
-      "readme_sections": 4,
+      "readme_sections": 5,
       "peripherals": [
         "FreeRTOS"
       ]
@@ -486,8 +488,8 @@
       "stack": "Keil MDK · HAL/标准库",
       "status": "维护中",
       "visibility": "公开",
-      "size_kb": 42864,
-      "head_size_kb": 224312,
+      "size_kb": 42875,
+      "head_size_kb": 219031,
       "language": "C",
       "license": "MIT",
       "topics": [
@@ -520,8 +522,8 @@
       "stack": "例程/手册（只读）",
       "status": "只读归档",
       "visibility": "私有",
-      "size_kb": 76756,
-      "head_size_kb": 204353,
+      "size_kb": 76768,
+      "head_size_kb": 119744,
       "language": "C",
       "license": "NOASSERTION",
       "topics": [
@@ -550,8 +552,8 @@
       "stack": "厂商文档/原理图/例程（只读）",
       "status": "只读归档",
       "visibility": "私有",
-      "size_kb": 164180,
-      "head_size_kb": 106557,
+      "size_kb": 164189,
+      "head_size_kb": 106571,
       "language": "C",
       "license": "NOASSERTION",
       "topics": [
@@ -579,8 +581,8 @@
       "stack": "Keil MDK · LVGL · SSD1963",
       "status": "维护中",
       "visibility": "私有",
-      "size_kb": 24346,
-      "head_size_kb": 57979,
+      "size_kb": 24358,
+      "head_size_kb": 57994,
       "language": "C",
       "license": "MIT",
       "topics": [
@@ -614,8 +616,8 @@
       "stack": "Keil MDK · HAL · FreeRTOS · LVGL",
       "status": "维护中",
       "visibility": "公开",
-      "size_kb": 5432,
-      "head_size_kb": 57820,
+      "size_kb": 5443,
+      "head_size_kb": 57834,
       "language": "C",
       "license": "MIT",
       "topics": [
@@ -647,8 +649,8 @@
       "stack": "PowerShell",
       "status": "维护中",
       "visibility": "公开",
-      "size_kb": 183,
-      "head_size_kb": 94,
+      "size_kb": 533,
+      "head_size_kb": 500,
       "language": "PowerShell",
       "license": "MIT",
       "topics": [
@@ -685,8 +687,8 @@
       "stack": "Vivado · Verilog/VHDL",
       "status": "维护中",
       "visibility": "公开",
-      "size_kb": 29775,
-      "head_size_kb": 73475,
+      "size_kb": 29787,
+      "head_size_kb": 44443,
       "language": "VHDL",
       "license": "NOASSERTION",
       "topics": [
@@ -710,8 +712,8 @@
       "stack": "厂商文档/源码（只读）",
       "status": "只读归档",
       "visibility": "私有",
-      "size_kb": 289487,
-      "head_size_kb": 52996,
+      "size_kb": 289498,
+      "head_size_kb": 53010,
       "language": "Verilog",
       "license": "NOASSERTION",
       "topics": [
