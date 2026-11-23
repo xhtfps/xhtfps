@@ -2,15 +2,16 @@
 
 个人工程总索引（GitHub 项目库入口）。全部仓库按“项目”归并：一个项目一个仓库，课程实验、基础模板作为子目录并入所属项目库，不再单独开仓库。统一格式与体积红线见 [`REPO-STANDARD.md`](https://github.com/xhtfps/xhtfps/blob/main/REPO-STANDARD.md)，全库体检用 [`tools/repo-audit.ps1`](https://github.com/xhtfps/xhtfps/blob/main/tools/repo-audit.ps1)。
 
-## 1. 仓库地图（20 个内容仓库 + 本索引）
+## 1. 仓库地图（22 个内容仓库 + 本索引）
 
 按角色分四类：板卡工程集（按芯片归口）、具体项目（一项目一仓）、竞赛与课程、资料库（原样备份，只读）。
 
-### 1.1 板卡工程集 · 公开 5
+### 1.1 板卡工程集 · 公开 6
 
 | 仓库 | 定位 | 板卡 / 平台 | 体积 | 状态 |
 | --- | --- | --- | --- | --- |
 | [stm32f4-projects](https://github.com/xhtfps/stm32f4-projects) | F407 工程集：基地调试程序（5 个子工程）、工程模板、往年与电赛题目 | 探索者 F407ZGT6 + Keil | 140 MB | 维护中 |
+| [stm32-cubemx-labs](https://github.com/xhtfps/stm32-cubemx-labs) | CubeMX HAL 工程集（LED / KEY / TIM / USART / ADC / FreeRTOS）与标准外设库工程模板 | F407 + CubeMX / Keil | 242 MB | 维护中 |
 | [stm32h7-projects](https://github.com/xhtfps/stm32h7-projects) | H743 工程集：裸机 / FreeRTOS / LVGL 模板、LTDC 驱动、谐波测量 | H743 + AT070TN83 | 27 MB | 维护中 |
 | [freertos-labs](https://github.com/xhtfps/freertos-labs) | FreeRTOS 课程实验全集 00–10 | F407 + Keil | 17 MB | 已完成 |
 | [esp32-k230-ai](https://github.com/xhtfps/esp32-k230-ai) | ESP32-S3 + K230 双板边缘视觉（双板协议、联调、K230 侧脚本） | ESP-IDF + CanMV | 45 MB | 维护中 |
@@ -28,7 +29,7 @@
 | [smart_robot](https://github.com/xhtfps/smart_robot) | 机器人软件侧：Whisper 识别 + GPT-SoVITS 合成 + YOLO 视觉 | Python | 私有 | 274 MB | 维护中 |
 | [fad-vision-research](https://github.com/xhtfps/fad-vision-research) | 跨域目标检测研究：ACDC 基准、FAD 频域自适应、AFPN 参考实现与评估 | PyTorch | 私有 | 99 MB | 进行中 |
 
-### 1.3 竞赛与课程 · 公开 2 / 私有 2
+### 1.3 竞赛与课程 · 公开 2 / 私有 3
 
 | 仓库 | 定位 | 技术栈 | 可见性 | 体积 | 状态 |
 | --- | --- | --- | --- | --- | --- |
@@ -36,6 +37,7 @@
 | [opencv-basics](https://github.com/xhtfps/opencv-basics) | OpenCV 图像处理入门：IO、绘制、基础处理、算术运算 | Python + OpenCV | 公开 | 1.5 MB | 已完成 |
 | [electronics-competition](https://github.com/xhtfps/electronics-competition) | 电赛 / 校赛资料库：示波器、信号发生器、超声波测距、2025 G 题 | STM32 | 私有 | 83 MB | 维护中 |
 | [math-modeling-2025](https://github.com/xhtfps/math-modeling-2025) | 2025 数模 B 题 Q1–Q4 | Python | 私有 | 3 MB | 已完成 |
+| [shuweibei-cup-b2026](https://github.com/xhtfps/shuweibei-cup-b2026) | 2026 数维杯国际赛 B 题：四问求解代码、模型推导报告、论文多版修改稿与支撑材料 | Python | 私有 | 172 MB | 已完成 |
 
 ### 1.4 资料库 · 私有 4（第三方资料与本机资料盘归档，只读不维护）
 
@@ -81,7 +83,7 @@
 | `dancing-robot-multimodal` | 无需并入 | 仅 9 个 ESP-IDF 骨架文件，无源码 | 仓库已删除 |
 | `esp32-k230-ai/robot/`（整机副本） | `dance-robot-esp32` | 9 个文件的同名对应全部存在，且完整工程含 `eyes`/`jx_firm`/答辩材料 | 子目录已移除，README 留跳转 |
 
-**28 → 14 → 21（20 内容 + 1 索引）**：14 个归档空壳全部删除，账号回到 13 个内容仓库 + 索引；随后本机资料盘归档与新项目拆仓补入 7 个仓库（5 个新项目/课程仓 + 2 个资料库仓），当前 20 个内容仓库 + 本索引。删除前已记录各仓库 HEAD SHA，90 天内可通过 GitHub Support 恢复，清单见 `GitHub仓库合并记录-2026-11-23.md`。
+**28 → 14 → 21 → 23（22 内容 + 1 索引）**：14 个归档空壳全部删除，账号回到 13 个内容仓库 + 索引；随后本机资料盘归档与新项目拆仓补入 7 个仓库（5 个新项目/课程仓 + 2 个资料库仓），本轮再补入 `stm32-cubemx-labs` 与 `shuweibei-cup-b2026`，当前 22 个内容仓库 + 本索引。删除前已记录各仓库 HEAD SHA，90 天内可通过 GitHub Support 恢复，清单见 `GitHub仓库合并记录-2026-11-23.md`。
 
 ## 5. 已完成的三轮整理
 
