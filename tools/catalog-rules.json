@@ -1,0 +1,177 @@
+{
+  "xhtfps": {
+    "category": "索引",
+    "chip": "—",
+    "board": "—",
+    "stack": "PowerShell",
+    "status": "维护中"
+  },
+  "stm32f4-projects": {
+    "category": "板卡工程集",
+    "chip": "STM32F407ZGT6",
+    "board": "正点原子 探索者 V3",
+    "stack": "Keil MDK · HAL/标准库",
+    "status": "维护中"
+  },
+  "stm32h7-projects": {
+    "category": "板卡工程集",
+    "chip": "STM32H743",
+    "board": "AT070TN83 7 寸屏",
+    "stack": "Keil MDK · HAL · FreeRTOS · LVGL",
+    "status": "维护中"
+  },
+  "freertos-labs": {
+    "category": "板卡工程集",
+    "chip": "STM32F407ZGT6",
+    "board": "正点原子 探索者 V3",
+    "stack": "Keil MDK · FreeRTOS 10",
+    "status": "已完成"
+  },
+  "esp32-k230-ai": {
+    "category": "板卡工程集",
+    "chip": "ESP32-S3 + K230",
+    "board": "自制双板",
+    "stack": "ESP-IDF · CanMV MicroPython",
+    "status": "维护中"
+  },
+  "zynq-fpga-projects": {
+    "category": "板卡工程集",
+    "chip": "ZYNQ-7020",
+    "board": "正点原子 领航者",
+    "stack": "Vivado · Verilog/VHDL",
+    "status": "维护中"
+  },
+  "stm32-cubemx-labs": {
+    "category": "板卡工程集",
+    "chip": "STM32（型号见各工程）",
+    "board": "无固定板卡",
+    "stack": "CubeMX HAL · 标准外设库",
+    "status": "新建"
+  },
+  "RLC_dac_study_flash": {
+    "category": "具体项目",
+    "chip": "STM32F407ZGT6",
+    "board": "基地板",
+    "stack": "Keil MDK · HAL · CMSIS-DSP",
+    "status": "已完成"
+  },
+  "lissajous-figure-device": {
+    "category": "具体项目",
+    "chip": "STM32F407",
+    "board": "自建装置（DAC 输出）",
+    "stack": "Keil MDK · DAC/DMA",
+    "status": "维护中"
+  },
+  "dance-robot-esp32": {
+    "category": "具体项目",
+    "chip": "ESP32",
+    "board": "自制舞蹈机器人整机",
+    "stack": "ESP-IDF · 舵机控制",
+    "status": "维护中"
+  },
+  "STM32F407-LVGL-SSD1963": {
+    "category": "具体项目",
+    "chip": "STM32F407ZGT6",
+    "board": "六足机器人自建板",
+    "stack": "Keil MDK · LVGL · SSD1963",
+    "status": "维护中"
+  },
+  "nir-moisture-meter": {
+    "category": "具体项目",
+    "chip": "STM32",
+    "board": "自建近红外水分仪",
+    "stack": "Keil MDK · Modbus · 上位机",
+    "status": "维护中"
+  },
+  "smart_robot": {
+    "category": "具体项目",
+    "chip": "PC（外接麦克风/摄像头）",
+    "board": "—",
+    "stack": "Python · Whisper · GPT-SoVITS · YOLO",
+    "status": "维护中"
+  },
+  "fad-vision-research": {
+    "category": "具体项目",
+    "chip": "GPU 训练环境",
+    "board": "ACDC 数据集",
+    "stack": "PyTorch · ACDC/FAD/AFPN",
+    "status": "进行中"
+  },
+  "electronics-competition": {
+    "category": "竞赛与课程",
+    "chip": "STM32F407 等",
+    "board": "历年赛题平台",
+    "stack": "Keil MDK · STM32",
+    "status": "维护中"
+  },
+  "dl-pytorch-course": {
+    "category": "竞赛与课程",
+    "chip": "PC/GPU",
+    "board": "—",
+    "stack": "PyTorch 2.x · CNN/LSTM",
+    "status": "已完成"
+  },
+  "opencv-basics": {
+    "category": "竞赛与课程",
+    "chip": "PC",
+    "board": "—",
+    "stack": "Python · OpenCV",
+    "status": "已完成"
+  },
+  "math-modeling-2025": {
+    "category": "竞赛与课程",
+    "chip": "PC",
+    "board": "—",
+    "stack": "Python · 数模求解",
+    "status": "已完成"
+  },
+  "shuweibei-cup-b2026": {
+    "category": "竞赛与课程",
+    "chip": "PC",
+    "board": "—",
+    "stack": "Python · 数模求解",
+    "status": "进行中"
+  },
+  "stm32f4-reference-materials": {
+    "category": "资料库",
+    "chip": "STM32F407",
+    "board": "本机资料盘归档",
+    "stack": "例程/手册（只读）",
+    "status": "只读归档"
+  },
+  "stm32f407-board-materials": {
+    "category": "资料库",
+    "chip": "STM32F407ZGT6",
+    "board": "正点原子 探索者 V3",
+    "stack": "厂商文档/原理图/例程（只读）",
+    "status": "只读归档"
+  },
+  "zynq-navigator-board": {
+    "category": "资料库",
+    "chip": "ZYNQ-7020",
+    "board": "正点原子 领航者",
+    "stack": "厂商文档/源码（只读）",
+    "status": "只读归档"
+  },
+  "hardware-course-materials": {
+    "category": "资料库",
+    "chip": "—",
+    "board": "硬件零基础课程",
+    "stack": "Multisim · OrCAD/Altium（只读）",
+    "status": "只读归档"
+  },
+  "bsp-libs": {
+    "category": "支撑库",
+    "chip": "—",
+    "board": "—",
+    "stack": "C · PowerShell · CSV",
+    "status": "在建"
+  },
+  "notes": {
+    "category": "支撑库",
+    "chip": "—",
+    "board": "—",
+    "stack": "Markdown · PowerShell",
+    "status": "在用"
+  }
+}
