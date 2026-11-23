@@ -20,6 +20,10 @@ concurrency:
   group: catalog-audit
   cancel-in-progress: true
 
+env:
+  # 私有仓枚举需要用户身份令牌；仅靠 GITHUB_TOKEN（安装令牌）读不到 /user/repos
+  CATALOG_TOKEN: ${{ secrets.CATALOG_TOKEN }}
+
 jobs:
   refresh:
     runs-on: ubuntu-latest
@@ -33,27 +37,40 @@ jobs:
       - name: 装依赖
         run: pip install requests
 
+      - name: 凭据检查
+        run: |
+          if [ -z "$CATALOG_TOKEN" ]; then
+            echo "::warning::未配置 CATALOG_TOKEN（需 repo 权限的 PAT），本次跳过全量刷新。"
+          else
+            echo "已配置 CATALOG_TOKEN，执行全量刷新。"
+          fi
+
       - name: 重新扫描仓库并刷新 catalog.json / README
+        if: env.CATALOG_TOKEN != ''
         shell: pwsh
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ env.CATALOG_TOKEN }}
         run: ./tools/build-index.ps1 -Owner xhtfps
 
       - name: 生成体检报告 HEALTH.md
+        if: env.CATALOG_TOKEN != ''
         shell: pwsh
         run: ./tools/health-check.ps1
 
       - name: 检查 README 引用（LINKS.md）
+        if: env.CATALOG_TOKEN != ''
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ env.CATALOG_TOKEN }}
         run: python tools/link-check.py
 
       - name: 重建查询库 embedded.db
+        if: env.CATALOG_TOKEN != ''
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ env.CATALOG_TOKEN }}
         run: python tools/build-db.py --owner xhtfps
 
       - name: 库自检（关键查询必须返回结果）
+        if: env.CATALOG_TOKEN != ''
         run: |
           python tools/db.py stats
           python tools/db.py driver ad9959 --json | head -20
@@ -67,6 +84,7 @@ jobs:
           PY
 
       - name: 有变化才提交
+        if: env.CATALOG_TOKEN != ''
         shell: bash
         run: |
           git config user.name  "github-actions[bot]"

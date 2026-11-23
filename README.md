@@ -1,6 +1,39 @@
+<div align="center">
+
 # XHTFPS · 嵌入式 / AI 视觉项目库
 
-个人工程总索引（GitHub 项目库入口）。全部仓库按“项目”归并：一个项目一个仓库，课程实验、基础模板作为子目录并入所属项目库，不再单独开仓库。统一格式与体积红线见 [`REPO-STANDARD.md`](https://github.com/xhtfps/xhtfps/blob/main/REPO-STANDARD.md)，全库体检用 [`tools/repo-audit.ps1`](https://github.com/xhtfps/xhtfps/blob/main/tools/repo-audit.ps1)，机器可读索引是 [`catalog.json`](https://github.com/xhtfps/xhtfps/blob/main/catalog.json)，每日体检结果在 [`HEALTH.md`](https://github.com/xhtfps/xhtfps/blob/main/HEALTH.md)。可复用驱动在 [`bsp-libs`](https://github.com/xhtfps/bsp-libs)，跨仓排错与手册索引在 [`notes`](https://github.com/xhtfps/notes)。
+**一个项目一个仓库：定位、边界、体积与体检结果都在这张地图里**
+
+![repos](https://img.shields.io/badge/repos-24%20content%20%2B%201%20index-0b5cad?style=flat-square)
+![audit](https://img.shields.io/badge/audit-daily%20CI-6f42c1?style=flat-square)
+![license](https://img.shields.io/badge/license-MIT-green?style=flat-square)
+
+[仓库地图](#1-仓库地图) · [仓库边界](#2-容易混的仓库边界在哪) · [格式规范](REPO-STANDARD.md)
+
+</div>
+
+## 这个仓库解决什么
+
+仓库一多，最先失控的不是代码，而是**边界**：同一份模板存了三份、同一个坑在五个 README 里各写一遍、半年后不知道某个仓该不该删。这里用一张自动生成的仓库地图 + 一份格式规范，把「哪个仓负责什么、体积多大、状态如何」固定下来。
+
+## 亮点
+
+- **地图自动生成**：`catalog.json` 是唯一数据源，README 表格由 `tools/build-index.ps1` 重写，不手改。
+- **每日体检**：`catalog-audit.yml` 每天北京时间 10:00 重跑索引与 `health-check.ps1`，有变化自动提交结果。
+- **边界可判定**：容易混的 10 组仓库写明区分口径（按板卡 / 按赛事 / 自己写的 vs 厂商资料）。
+- **体积可追溯**：每次瘦身都留 `base_commit`，`notes/offload.json` 点开即能取回，不做 force push。
+
+## 结构
+
+```mermaid
+flowchart LR
+  R["各仓库 README<br/>+ git trees"] --> B["build-index.ps1"]
+  B --> C["catalog.json<br/>机器可读"]
+  C --> M["README §1 仓库地图"]
+  R --> H["health-check.ps1"]
+  H --> HH["HEALTH.md"]
+  CI["catalog-audit.yml<br/>每日 10:00"] --> B
+```
 
 <!-- CATALOG:START -->
 ## 1. 仓库地图（24 个内容仓库 + 本索引）
@@ -159,8 +192,7 @@
 | 8 | 没有查询入口，只能人眼看 JSON | 已解决 | `db.py` 命令行 + 豆包 Skill（见 §9）；CI 每夜重建并自检 |
 | 9 | AD9959 与 ADS1256 引脚硬冲突（PF2/PF4 双用） | 已解决（方案级） | [`bsp-libs/hardware/PIN-CONFLICTS.md`](https://github.com/xhtfps/bsp-libs/blob/main/hardware/PIN-CONFLICTS.md) 给出三条路线；方案 A 落成 `example_f407_dual` **v2**（ADS1256 只挪 SCLK→PF7、DOUT→PF9，驱动改两个宏），SPI1 版本降为备选；**未上板验证** |
 | 10 | 分支保护未开 | 有意不改 | 单人仓库开了会阻塞自己 push，靠提交习惯约束 |
-| 11 | 单个 85 MB 大文件（`firefly_e10_s1110.pth`）在本机取不回 | **未解决**（有绕法） | 六条通道实测：contents/git-blobs raw 都在 38–70 MB 处被截断、不支持 Range（实测 492 KB/s）；`raw.githubusercontent` 对私有仓直接重置；但 `git clone --depth 1 --filter=blob:none` **现在 2 秒可通**（早前“clone 不可用”结论已推翻），只是该文件已移出 HEAD，按 `base_commit` 拉单 blob 同样被截断。稳定通道只有浏览器下载，详见 [`smart_robot/WEIGHTS.md`](https://github.com/xhtfps/smart_robot/blob/main/WEIGHTS.md) §4 |
-| 12 | 所有写操作依赖本机 token，且本机 `github.com` 被 DNS 污染 | 部分缓解 | 读侧全部有 CI 兜底（每夜重建 catalog/HEALTH/LINKS/embedded.db）；本地脚本必须先 `NO_PROXY='*'` 清代理 |
+| 11 | 所有写操作依赖本机 token，且本机 `github.com` 被 DNS 污染 | 部分缓解 | 读侧全部有 CI 兜底（每夜重建 catalog/HEALTH/LINKS/embedded.db）；本地脚本必须先 `NO_PROXY='*'` 清代理 |
 
 ## 7. 命名约定
 
@@ -226,3 +258,18 @@ python .\tools\db.py sql "select repo,head_mb from repos where head_mb>150"
 - “哪几个仓还超 200 MB、为什么没继续瘦”
 
 口径说明：`status_since` 取“状态落定的日期”，结项/归档类目前用最近推送日近似（精确日期可在 `catalog-rules.json` 里加 `status_since` 覆盖）；`docs` 里 `offloaded` 条目的 `url` 一定指向移出前的提交，不是死链。
+
+## 路线图
+
+- [x] 索引与体检自动化，README 表格不再手写
+- [x] 24 个内容仓统一 topics、README 五段、排除摘要
+- [ ] 把「仓库外观规范」（徽章、结构图、路线图）纳入自动体检
+- [ ] 继续压 `stm32-cubemx-labs`、`stm32f4-projects` 两个大仓的体积
+
+## 参与与反馈
+
+本仓是个人项目索引，不对外接收 PR。发现索引与实际不符，按 [Issue 模板](.github/ISSUE_TEMPLATE) 提；安全事项见 [SECURITY.md](SECURITY.md)。
+
+## 许可证
+
+本仓文档与脚本以 [MIT](LICENSE) 分发；被索引的各仓库按其自身许可证。
