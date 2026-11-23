@@ -265,6 +265,10 @@ def main():
     size = os.path.getsize(out)
     print(f'写完 {out}（{size/1024:.0f} KB）')
     print('  表行数：' + '，'.join(f'{k}={v}' for k, v in counts.items()))
+    # 静默降级防护：bsp-libs 是私有仓，token 缺失时接口静默返回空树，会悄悄把 pins/drivers 清零
+    if counts['drivers'] == 0 or counts['pins'] == 0:
+        print('[警告] drivers/pins 为 0：多半是 GITHUB_TOKEN 缺失或 bsp-libs 读取失败，本次结果不可用')
+        raise SystemExit(2)
 
 
 if __name__ == '__main__':
