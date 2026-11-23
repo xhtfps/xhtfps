@@ -20,10 +20,6 @@
 | `LICENSE` | 版权声明 | 公开工程用 MIT；含第三方资料用“保留所有权利 + 第三方说明” |
 | `.gitignore` | 阻止生成物入库 | 至少覆盖 `Output/`、`*.uvguix.*`、`JLinkLog.txt`、`__pycache__/` |
 | `.gitattributes` | 行尾与二进制判定 | `* text=auto eol=lf`，大文件标 `binary` |
-| `CONTRIBUTING.md` | 贡献指南 | 报 Issue / 提 PR 的流程、代码风格、不入库清单 |
-| `SECURITY.md` | 安全策略 | 报告通道、响应时限、第三方组件不在范围内 |
-| `.github/ISSUE_TEMPLATE/` | Issue 模板 | `bug_report.yml`、`feature_request.yml`、`config.yml`（禁空白 Issue） |
-| `.github/PULL_REQUEST_TEMPLATE.md` | PR 模板 | 改动内容、动机、验证方式、自查清单 |
 
 可选：`EXCLUDED_FILES.md`（排除清单**摘要**）。体积超过 50 MB 的仓库必须有。
 
@@ -61,36 +57,6 @@
 
 五段顺序不可调；缺段视为不合规。
 
-### 3.1 五段之外：外观层（成熟项目标配）
-
-五段前面加「头部块」，五段后面加「尾块」，中间五段原样保留。头部与尾部都不参与编号，避免打乱 §1–§5。
-
-```md
-<div align="center">
-  <h1>项目名</h1>
-  <p><b>一句话定位（能单独转发的句子）</b></p>
-  <p>徽章：平台 / 工具链 / 许可证 / 最近提交</p>
-  <p>3–4 个锚点链接：快速开始 · 常见问题 · 全部仓库索引</p>
-</div>
-
-## 为什么是这样一个仓库   （2–4 句：解决什么真实麻烦）
-## 亮点                    （3–4 条，每条「结论 + 依据」，禁止形容词堆砌）
-## 结构                    （mermaid 图，只画真实存在的模块与数据流）
-
-…§1–§5 原样…
-
-## 路线图                  （3–5 条，含已完成的 `[x]`）
-## 参与与反馈              （Issue / PR / SECURITY 三条入口 + Star 请求）
-## 许可证                  （自有代码 + 第三方说明）
-```
-
-硬性口径：
-
-- **图只画真有的东西**：mermaid 里的节点必须能在目录或源码里找到对应文件，不画设想的模块。
-- **不造数据**：亮点的依据、参数、指标一律来自仓内文档或实测记录，没有就写「未测得」，不许编。
-- **徽章只用两类**：静态 `img.shields.io/badge/...`；公开仓可加 `github/last-commit`、`github/stars`。私有仓不用动态徽章（会 404）。
-- **资料镜像仓例外**：`*-board-materials`、`*-reference-materials`、`hardware-course-materials` 这类仓把「为什么是这样一个仓库 / 亮点 / 结构」换成「这是什么资料 / 怎么用 / 版权与边界」，且**不得**声明 MIT。
-
 ## 4. 目录约定
 
 - 一个工程一个目录；工程集仓库的顶层目录直接是工程名，不再套一层“源代码”等壳目录。
@@ -119,13 +85,3 @@
 ## 7. 体检
 
 `pwsh -File .\tools\repo-audit.ps1` 可一次性检查全部仓库的必备文件、README 五段、topics 数量、描述、排除摘要与赘余 CSV，输出合规/需修清单；加 `-WriteReport` 会用 `repo-audit-report.md` 落盘。
-
-外观层（§3.1）目前**人工核对**：徽章是否有死链、mermaid 节点是否真实存在、路线图是否有已完成项。等体检脚本补上这三项检查后，纳入自动跑。
-
-## 8. 新建仓库 checklist
-
-1. 按 §1 命名，描述写成「一句话定位」，topics ≥ 3 且来自 [`TOPICS.md`](TOPICS.md)。
-2. 建 `README.md`：头部块 + 五段 + 尾块（§3.1），外加 `CONTRIBUTING.md`、`SECURITY.md`、`.github/` 两个模板。
-3. 建 `LICENSE`、`.gitignore`、`.gitattributes`；含第三方资料时用「保留所有权利 + 第三方说明」。
-4. 在 `tools/catalog-rules.json` 登记分类 / 芯片 / 板卡 / 状态，重跑 `tools/build-index.ps1`。
-5. 跑 `tools/repo-audit.ps1` 与 `tools/health-check.ps1`，清零后再提交。
