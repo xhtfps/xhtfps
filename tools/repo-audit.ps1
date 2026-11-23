@@ -6,7 +6,7 @@
     pwsh -File .\tools\repo-audit.ps1 -WriteReport       # 同时写 repo-audit-report.md
 
   依赖：gh CLI 已登录（gh auth status 显示有 repo 权限）。
-  只读操作，不会改动任何仓库。
+  只读操作；每个仓库只调 2 次 API（目录列表 + README），并自带重试。
 #>
 param(
   [string]$Owner = "xhtfps",
@@ -17,34 +17,32 @@ $ErrorActionPreference = "Continue"
 $RequiredFiles = @("README.md", "LICENSE", ".gitignore", ".gitattributes")
 $RequiredSections = @("## 1.", "## 2.", "## 3.", "## 4.", "## 5.")
 
-function Test-RepoFile {
-  param($Repo, $Path)
-  $sha = (gh api "repos/$Owner/$Repo/contents/$Path" --jq '.sha' 2>$null | Out-String).Trim()
-  return ($sha.Length -eq 40)
+function Invoke-Gh {
+  param([string[]]$Args, [int]$Retry = 3)
+  for($i = 1; $i -le $Retry; $i++) {
+    $out = & gh @Args 2>$null | Out-String
+    if($LASTEXITCODE -eq 0 -and $out.Trim().Length -gt 0) { return $out }
+    Start-Sleep -Milliseconds 400
+  }
+  return $null
 }
 
-function Get-RepoText {
-  param($Repo, $Path)
-  $out = gh api "repos/$Owner/$Repo/contents/$Path" -H "Accept: application/vnd.github.raw" 2>$null | Out-String
-  if($LASTEXITCODE -ne 0){ return $null }
-  return $out
-}
-
-$json = gh repo list $Owner --limit 200 --json name,isArchived,visibility,diskUsage,repositoryTopics,description 2>$null | Out-String
+$json = Invoke-Gh @("repo","list",$Owner,"--limit","200","--json","name,isArchived,visibility,diskUsage,repositoryTopics,description")
 if(-not $json) { throw "gh repo list 失败，先检查 gh auth status" }
 $repos = $json | ConvertFrom-Json
 $rows = @()
 
 foreach($r in ($repos | Where-Object { -not $_.isArchived })) {
-  $missing = @()
-  foreach($f in $RequiredFiles) { if(-not (Test-RepoFile $r.name $f)) { $missing += $f } }
+  $rootJson = Invoke-Gh @("api", "repos/$Owner/$($r.name)/contents")
+  $names = @()
+  $apiFail = $false
+  if($rootJson) { $names = @(($rootJson | ConvertFrom-Json) | ForEach-Object { $_.name }) } else { $apiFail = $true }
 
-  $readme = Get-RepoText $r.name "README.md"
+  $readme = Invoke-Gh @("api", "repos/$Owner/$($r.name)/contents/README.md", "-H", "Accept: application/vnd.github.raw")
   $missSec = @()
   $readFail = $false
-  if($null -eq $readme -or $readme.Trim().Length -eq 0) {
-    $readFail = $true
-  } else {
+  if(-not $readme) { $readFail = $true }
+  else {
     foreach($s in $RequiredSections) {
       if($readme -notmatch [regex]::Escape($s)) { $missSec += ($s -replace '## ').TrimEnd('.') }
     }
@@ -52,19 +50,21 @@ foreach($r in ($repos | Where-Object { -not $_.isArchived })) {
 
   $mb = [math]::Round($r.diskUsage / 1024, 1)
   $topicCount = @($r.repositoryTopics).Count
-  $needSummary = ($r.diskUsage -gt 51200)
-  $hasSummary = Test-RepoFile $r.name "EXCLUDED_FILES.md"
-  $hasFatCsv  = Test-RepoFile $r.name "EXCLUDED_MANIFEST.csv"
-
   $issues = @()
-  if($missing.Count -gt 0)  { $issues += "缺文件: " + ($missing -join ",") }
-  if($readFail)             { $issues += "README 读取失败（网络/权限）" }
+
+  if($apiFail) { $issues += "目录 API 失败（未判定缺文件）" }
+  else {
+    $missing = @($RequiredFiles | Where-Object { $names -notcontains $_ })
+    if($missing.Count -gt 0) { $issues += "缺文件: " + ($missing -join ",") }
+    if($r.diskUsage -gt 51200 -and $names -notcontains "EXCLUDED_FILES.md") { $issues += ">50MB 缺 EXCLUDED_FILES.md" }
+    if($names -contains "EXCLUDED_MANIFEST.csv") { $issues += "仍有逐文件 CSV" }
+  }
+
+  if($readFail) { $issues += "README 读取失败（网络/限流）" }
   elseif($missSec.Count -gt 0) { $issues += "README 缺段: " + ($missSec -join ",") }
-  if($topicCount -lt 3)     { $issues += "topics=$topicCount<3" }
-  if(-not $r.description)   { $issues += "无描述" }
-  if($needSummary -and -not $hasSummary) { $issues += ">50MB 缺 EXCLUDED_FILES.md" }
-  if($hasFatCsv)            { $issues += "仍有逐文件 CSV" }
-  if($mb -gt 50)            { $issues += "体积 $mb MB 超红线" }
+  if($topicCount -lt 3) { $issues += "topics=$topicCount<3" }
+  if(-not $r.description) { $issues += "无描述" }
+  if($mb -gt 50) { $issues += "体积 $mb MB 超红线" }
 
   $rows += [pscustomobject]@{
     仓库   = $r.name
