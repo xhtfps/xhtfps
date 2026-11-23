@@ -8,6 +8,8 @@ on:
   push:
     paths:
       - 'tools/build-index.ps1'
+      - 'tools/build-db.py'
+      - 'tools/link-check.py'
       - 'tools/health-check.ps1'
       - 'tools/catalog-rules.json'
 
@@ -24,6 +26,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 装依赖
+        run: pip install requests
+
       - name: 重新扫描仓库并刷新 catalog.json / README
         shell: pwsh
         env:
@@ -34,6 +43,29 @@ jobs:
         shell: pwsh
         run: ./tools/health-check.ps1
 
+      - name: 检查 README 引用（LINKS.md）
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python tools/link-check.py
+
+      - name: 重建查询库 embedded.db
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python tools/build-db.py --owner xhtfps
+
+      - name: 库自检（关键查询必须返回结果）
+        run: |
+          python tools/db.py stats
+          python tools/db.py driver ad9959 --json | head -20
+          python - <<'PY'
+          import sqlite3, sys
+          con = sqlite3.connect('embedded.db')
+          q = con.execute("select count(*) from pins where mcu_pin<>''").fetchone()[0]
+          d = con.execute("select count(*) from drivers").fetchone()[0]
+          print(f'pins with mcu_pin={q}, drivers={d}')
+          sys.exit(0 if q > 0 and d > 0 else 1)
+          PY
+
       - name: 有变化才提交
         shell: bash
         run: |
@@ -43,6 +75,6 @@ jobs:
             echo "无变化，跳过提交"
             exit 0
           fi
-          git add catalog.json README.md HEALTH.md
-          git commit -m "自动刷新：catalog.json / README 表格 / HEALTH 体检（$(date -u '+%Y-%m-%d %H:%M UTC')）"
+          git add catalog.json README.md HEALTH.md LINKS.md links.json embedded.db
+          git commit -m "自动刷新：catalog / README / HEALTH / LINKS / embedded.db（$(date -u '+%Y-%m-%d %H:%M UTC')）"
           git push

@@ -226,6 +226,9 @@ else {
             description   = [string]$repo.description
             default_branch = [string]$repo.default_branch
             pushed_at     = ([datetime]$repo.pushed_at).ToString('yyyy-MM-dd')
+            status_since  = if ($rule -and $rule.status_since) { [string]$rule.status_since }
+                            elseif ([string]$status -match '结项|归档|已完成') { ([datetime]$repo.pushed_at).ToString('yyyy-MM-dd') }
+                            else { '' }
             html_url      = [string]$repo.html_url
             readme_sections = Get-ReadmeSectionCount -Text $text
             peripherals   = @(Get-Peripherals -Text $text)

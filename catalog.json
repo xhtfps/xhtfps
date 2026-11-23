@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "owner": "xhtfps",
-  "generated_at": "2026-11-23T16:01:35+08:00",
+  "generated_at": "2026-11-23T18:31:08+08:00",
   "repo_count": 25,
   "repos": [
     {
@@ -25,6 +25,7 @@
       "description": "嵌入式驱动库与板级硬件约定（drivers/ + hardware/pinmap.csv/BOM.csv）",
       "default_branch": "main",
       "pushed_at": "2026-11-23",
+      "status_since": "",
       "html_url": "https://github.com/xhtfps/bsp-libs",
       "readme_sections": 5,
       "peripherals": [
@@ -56,6 +57,7 @@
       "description": "ESP32 舞蹈机器人：主控固件、视觉模块、机械固件与比赛文档",
       "default_branch": "main",
       "pushed_at": "2026-11-23",
+      "status_since": "",
       "html_url": "https://github.com/xhtfps/dance-robot-esp32",
       "readme_sections": 5,
       "peripherals": [
@@ -82,6 +84,7 @@
       "description": "PyTorch 深度学习课程：CNN/LSTM 代码、数据与课堂笔记",
       "default_branch": "main",
       "pushed_at": "2026-11-23",
+      "status_since": "2026-11-23",
       "html_url": "https://github.com/xhtfps/dl-pytorch-course",
       "readme_sections": 5,
       "peripherals": []
@@ -94,7 +97,7 @@
       "stack": "Keil MDK · STM32",
       "status": "维护中",
       "visibility": "私有",
-      "size_kb": 85409,
+      "size_kb": 85420,
       "head_size_kb": 135312,
       "language": "C",
       "license": "NOASSERTION",
@@ -109,6 +112,7 @@
       "description": "电赛/校赛项目与资料库：示波器、信号发生器、超声波测距、2025 G 题（含第三方资料，私有）",
       "default_branch": "main",
       "pushed_at": "2026-11-23",
+      "status_since": "",
       "html_url": "https://github.com/xhtfps/electronics-competition",
       "readme_sections": 5,
       "peripherals": [
@@ -139,6 +143,7 @@
       "description": "ESP32-S3 与 K230 双板协作的边缘 AI 视觉工程（双板联调、机器人集成、语音交互）",
       "default_branch": "main",
       "pushed_at": "2026-11-23",
+      "status_since": "",
       "html_url": "https://github.com/xhtfps/esp32-k230-ai",
       "readme_sections": 5,
       "peripherals": [
@@ -167,6 +172,7 @@
       "description": "跨域目标检测研究：ACDC 基准实验、FAD 频域自适应检测、AFPN 参考实现与评估脚本",
       "default_branch": "main",
       "pushed_at": "2026-11-23",
+      "status_since": "",
       "html_url": "https://github.com/xhtfps/fad-vision-research",
       "readme_sections": 5,
       "peripherals": [
@@ -197,6 +203,7 @@
       "description": "STM32F407 + FreeRTOS 课程实验全集（00 工程模板 + 01-10 实验）",
       "default_branch": "main",
       "pushed_at": "2026-11-23",
+      "status_since": "2026-11-23",
       "html_url": "https://github.com/xhtfps/freertos-labs",
       "readme_sections": 5,
       "peripherals": [
@@ -224,6 +231,7 @@
       "description": "硬件零基础课程资料：课件、Multisim 仿真工程、OrCAD/Altium 封装库与辅助表格",
       "default_branch": "main",
       "pushed_at": "2026-11-23",
+      "status_since": "2026-11-23",
       "html_url": "https://github.com/xhtfps/hardware-course-materials",
       "readme_sections": 5,
       "peripherals": []
@@ -251,6 +259,7 @@
       "description": "2026 电赛 F 题：基于 STM32F407 的李萨如图形显示控制装置",
       "default_branch": "main",
       "pushed_at": "2026-11-23",
+      "status_since": "",
       "html_url": "https://github.com/xhtfps/lissajous-figure-device",
       "readme_sections": 5,
       "peripherals": [
@@ -277,6 +286,7 @@
       "description": "2025 数模 B 题代码：学生成绩与焦虑相关问题 Q1-Q4（Python）",
       "default_branch": "main",
       "pushed_at": "2026-11-23",
+      "status_since": "2026-11-23",
       "html_url": "https://github.com/xhtfps/math-modeling-2025",
       "readme_sections": 5,
       "peripherals": []
@@ -301,6 +311,7 @@
       "description": "在线式双波长近红外水分仪：STM32 固件 + 上位机 + Modbus 协议 + 硬件/EDA 交付资料",
       "default_branch": "main",
       "pushed_at": "2026-11-23",
+      "status_since": "",
       "html_url": "https://github.com/xhtfps/nir-moisture-meter",
       "readme_sections": 5,
       "peripherals": [
@@ -315,7 +326,7 @@
       "stack": "Markdown · PowerShell",
       "status": "在用",
       "visibility": "私有",
-      "size_kb": 0,
+      "size_kb": 83,
       "head_size_kb": 263,
       "language": "PowerShell",
       "license": "",
@@ -325,6 +336,7 @@
       "description": "嵌入式调试知识库：跨仓排错速查 + 手册索引（脚本生成）",
       "default_branch": "main",
       "pushed_at": "2026-11-23",
+      "status_since": "",
       "html_url": "https://github.com/xhtfps/notes",
       "readme_sections": 5,
       "peripherals": [
@@ -351,6 +363,7 @@
       "description": "OpenCV + Python 图像处理入门代码与示例",
       "default_branch": "main",
       "pushed_at": "2026-11-23",
+      "status_since": "2026-11-23",
       "html_url": "https://github.com/xhtfps/opencv-basics",
       "readme_sections": 5,
       "peripherals": []
@@ -376,6 +389,7 @@
       "description": "RLC 阻抗测量仪（结项）：F407 DAC 激励 + 双 ADC 采样 + FFT 解算，附 AD9959/ADF4351/AD8370 驱动与 CMSIS-DSP",
       "default_branch": "main",
       "pushed_at": "2026-11-23",
+      "status_since": "2026-11-23",
       "html_url": "https://github.com/xhtfps/RLC_dac_study_flash",
       "readme_sections": 5,
       "peripherals": [
@@ -391,7 +405,7 @@
       "stack": "Python · 数模求解",
       "status": "进行中",
       "visibility": "私有",
-      "size_kb": 69094,
+      "size_kb": 69102,
       "head_size_kb": 131667,
       "language": "Python",
       "license": "",
@@ -402,6 +416,7 @@
       "description": "2026 数维杯国际赛 B 题：四问求解代码、模型推导报告、论文多版修改稿与支撑材料",
       "default_branch": "main",
       "pushed_at": "2026-11-23",
+      "status_since": "",
       "html_url": "https://github.com/xhtfps/shuweibei-cup-b2026",
       "readme_sections": 4,
       "peripherals": []
@@ -414,7 +429,7 @@
       "stack": "Python · Whisper · GPT-SoVITS · YOLO",
       "status": "维护中",
       "visibility": "私有",
-      "size_kb": 280881,
+      "size_kb": 280887,
       "head_size_kb": 53242,
       "language": "Python",
       "license": "NOASSERTION",
@@ -427,6 +442,7 @@
       "description": "智能机器人（软件侧）：语音交互 + Whisper 识别 + GPT-SoVITS 合成 + OpenCV/YOLO 视觉 + URDF 模型",
       "default_branch": "main",
       "pushed_at": "2026-11-23",
+      "status_since": "",
       "html_url": "https://github.com/xhtfps/smart_robot",
       "readme_sections": 5,
       "peripherals": [
@@ -444,7 +460,7 @@
       "stack": "CubeMX HAL · 标准外设库",
       "status": "新建",
       "visibility": "公开",
-      "size_kb": 21348,
+      "size_kb": 21353,
       "head_size_kb": 233593,
       "language": "C",
       "license": "",
@@ -455,6 +471,7 @@
       "description": "STM32 CubeMX HAL 工程集（LED/KEY/TIM/USART/ADC/FreeRTOS）与标准外设库工程模板",
       "default_branch": "main",
       "pushed_at": "2026-11-23",
+      "status_since": "",
       "html_url": "https://github.com/xhtfps/stm32-cubemx-labs",
       "readme_sections": 4,
       "peripherals": [
@@ -469,7 +486,7 @@
       "stack": "Keil MDK · HAL/标准库",
       "status": "维护中",
       "visibility": "公开",
-      "size_kb": 42858,
+      "size_kb": 42864,
       "head_size_kb": 224312,
       "language": "C",
       "license": "MIT",
@@ -486,6 +503,7 @@
       "description": "STM32F407 工程集：基地调试程序（5 个子工程）、工程模板、往年与电赛题目",
       "default_branch": "main",
       "pushed_at": "2026-11-23",
+      "status_since": "",
       "html_url": "https://github.com/xhtfps/stm32f4-projects",
       "readme_sections": 5,
       "peripherals": [
@@ -502,7 +520,7 @@
       "stack": "例程/手册（只读）",
       "status": "只读归档",
       "visibility": "私有",
-      "size_kb": 76748,
+      "size_kb": 76756,
       "head_size_kb": 204353,
       "language": "C",
       "license": "NOASSERTION",
@@ -515,6 +533,7 @@
       "description": "STM32F407 参考资料与例程：基地板调试程序、AD9959、LVGL、FreeRTOS 模板、示波器工程",
       "default_branch": "main",
       "pushed_at": "2026-11-23",
+      "status_since": "2026-11-23",
       "html_url": "https://github.com/xhtfps/stm32f4-reference-materials",
       "readme_sections": 5,
       "peripherals": [
@@ -531,7 +550,7 @@
       "stack": "厂商文档/原理图/例程（只读）",
       "status": "只读归档",
       "visibility": "私有",
-      "size_kb": 164176,
+      "size_kb": 164180,
       "head_size_kb": 106557,
       "language": "C",
       "license": "NOASSERTION",
@@ -544,6 +563,7 @@
       "description": "正点原子探索者 V3（STM32F407ZGT6）开发板资料：文档、原理图、例程与硬件资料",
       "default_branch": "main",
       "pushed_at": "2026-11-23",
+      "status_since": "2026-11-23",
       "html_url": "https://github.com/xhtfps/stm32f407-board-materials",
       "readme_sections": 5,
       "peripherals": [
@@ -576,6 +596,7 @@
       "description": "六足平衡机器人（STM32F407 + LVGL + SSD1963 + PS2 手柄 + 触摸屏 UI）",
       "default_branch": "main",
       "pushed_at": "2026-11-23",
+      "status_since": "",
       "html_url": "https://github.com/xhtfps/STM32F407-LVGL-SSD1963",
       "readme_sections": 5,
       "peripherals": [
@@ -609,6 +630,7 @@
       "description": "STM32H743 工程集：裸机、FreeRTOS、LVGL 模板，LTDC 液晶驱动，谐波测量结项",
       "default_branch": "main",
       "pushed_at": "2026-11-23",
+      "status_since": "",
       "html_url": "https://github.com/xhtfps/stm32h7-projects",
       "readme_sections": 5,
       "peripherals": [
@@ -625,8 +647,8 @@
       "stack": "PowerShell",
       "status": "维护中",
       "visibility": "公开",
-      "size_kb": 102,
-      "head_size_kb": 95,
+      "size_kb": 183,
+      "head_size_kb": 94,
       "language": "PowerShell",
       "license": "MIT",
       "topics": [
@@ -635,6 +657,7 @@
       "description": "嵌入式 / AI 视觉 / 课程实验项目总索引（项目库入口）",
       "default_branch": "main",
       "pushed_at": "2026-11-23",
+      "status_since": "",
       "html_url": "https://github.com/xhtfps/xhtfps",
       "readme_sections": 5,
       "peripherals": [
@@ -674,6 +697,7 @@
       "description": "ZYNQ-7020 FPGA 基础工程集：呼吸灯、按键、数码管、RAM/FIFO/时钟 IP 核",
       "default_branch": "main",
       "pushed_at": "2026-11-23",
+      "status_since": "",
       "html_url": "https://github.com/xhtfps/zynq-fpga-projects",
       "readme_sections": 5,
       "peripherals": []
@@ -686,9 +710,9 @@
       "stack": "厂商文档/源码（只读）",
       "status": "只读归档",
       "visibility": "私有",
-      "size_kb": 289468,
+      "size_kb": 289487,
       "head_size_kb": 52996,
-      "language": "VHDL",
+      "language": "Verilog",
       "license": "NOASSERTION",
       "topics": [
         "reference",
@@ -697,6 +721,7 @@
       "description": "正点原子领航者 ZYNQ 开发板资料索引：教程、原理图、引脚表、FPGA/Vitis/Linux 源码（第三方资料）",
       "default_branch": "main",
       "pushed_at": "2026-11-23",
+      "status_since": "2026-11-23",
       "html_url": "https://github.com/xhtfps/zynq-navigator-board",
       "readme_sections": 5,
       "peripherals": []

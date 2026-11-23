@@ -1,6 +1,6 @@
 # 仓库体检（HEALTH）
 
-> 由 `tools/health-check.ps1` 定时生成（2026-11-23 16:01），基于 `catalog.json`，只看硬指标。
+> 由 `tools/health-check.ps1` 定时生成（2026-11-23 18:31），基于 `catalog.json`，只看硬指标。
 
 ## 1. 概览
 
