@@ -20,7 +20,7 @@ $RequiredSections = @("## 1.", "## 2.", "## 3.", "## 4.", "## 5.", "## 6.")
 
 function Test-RepoFile {
   param($Repo, $Path)
-  $out = gh api "repos/$Owner/$Repo/contents/$Path" --silent 2>$null
+  gh api "repos/$Owner/$Repo/contents/$Path" --silent 2>$null | Out-Null
   return ($LASTEXITCODE -eq 0)
 }
 
@@ -31,7 +31,9 @@ function Get-RepoText {
   return $out
 }
 
-$repos = gh repo list $Owner --limit 200 --json name,isArchived,visibility,diskUsage,topics,description | ConvertFrom-Json
+$json = gh repo list $Owner --limit 200 --json name,isArchived,visibility,diskUsage,repositoryTopics,description 2>$null | Out-String
+if(-not $json) { throw "gh repo list 失败，先检查 gh auth status" }
+$repos = $json | ConvertFrom-Json
 $rows = @()
 
 foreach($r in ($repos | Where-Object { -not $_.isArchived })) {
@@ -40,41 +42,52 @@ foreach($r in ($repos | Where-Object { -not $_.isArchived })) {
 
   $readme = Get-RepoText $r.name "README.md"
   $missSec = @()
-  foreach($s in $RequiredSections) { if($readme -notmatch [regex]::Escape($s)) { $missSec += ($s -replace '## ','') } }
+  foreach($s in $RequiredSections) {
+    if($readme -notmatch [regex]::Escape($s)) { $missSec += ($s -replace '## ','') }
+  }
 
+  $mb = [math]::Round($r.diskUsage / 1024, 1)
+  $topicCount = @($r.repositoryTopics).Count
   $needSummary = ($r.diskUsage -gt 51200)   # 50 MB 以上应有排除摘要
   $hasSummary = Test-RepoFile $r.name "EXCLUDED_FILES.md"
-  $hasFatCsv = Test-RepoFile $r.name "EXCLUDED_MANIFEST.csv"
+  $hasFatCsv  = Test-RepoFile $r.name "EXCLUDED_MANIFEST.csv"
 
   $issues = @()
-  if($missing.Count -gt 0)   { $issues += "缺文件: " + ($missing -join ",") }
-  if($missSec.Count -gt 0)   { $issues += "README 缺段: " + ($missSec -join ",") }
-  if($r.topics.Count -lt 3)  { $issues += "topics<3" }
-  if(-not $r.description)    { $issues += "无描述" }
+  if($missing.Count -gt 0)  { $issues += "缺文件: " + ($missing -join ",") }
+  if($missSec.Count -gt 0)  { $issues += "README 缺段: " + ($missSec -join ",") }
+  if($topicCount -lt 3)     { $issues += "topics=$topicCount<3" }
+  if(-not $r.description)   { $issues += "无描述" }
   if($needSummary -and -not $hasSummary) { $issues += "大仓库缺 EXCLUDED_FILES.md" }
-  if($hasFatCsv)             { $issues += "仍有逐文件 CSV" }
+  if($hasFatCsv)            { $issues += "仍有逐文件 CSV" }
 
   $rows += [pscustomobject]@{
-    仓库     = $r.name
-    可见性   = $r.visibility
-    体积MB   = $r.diskUsage / 1024
-    Topics   = $r.topics.Count
-    结论     = if($issues.Count -eq 0){ "OK" } else { "需修" }
-    问题     = $issues -join "；"
+    仓库   = $r.name
+    可见性 = $r.visibility
+    体积MB = $mb
+    Topics = $topicCount
+    结论   = if($issues.Count -eq 0){ "OK" } else { "需修" }
+    问题   = $issues -join "；"
   }
 }
 
-$rows | Sort-Object @{Expression={$_.结论 -ne "OK"}; Descending=$true}, 体积MB -Descending |
-  Format-Table 仓库, 可见性, @{n="体积MB";e={[math]::Round($_.体积MB,1)}}, Topics, 结论, 问题 -AutoSize | Out-String -Width 200
+$sorted = $rows | Sort-Object @{Expression={$_.结论 -ne "OK"}; Descending=$true}, @{Expression={$_.体积MB}; Descending=$true}
+$sorted | Format-Table 仓库, 可见性, 体积MB, Topics, 结论, 问题 -AutoSize | Out-String -Width 220 | Write-Output
 
-$bad = ($rows | Where-Object { $_.结论 -ne "OK" }).Count
+$bad = @($rows | Where-Object { $_.结论 -ne "OK" }).Count
 Write-Output ("合计 {0} 个活跃仓库，合规 {1}，需修 {2}" -f $rows.Count, ($rows.Count - $bad), $bad)
 
 if($WriteReport) {
-  $head = "# 仓库体检报告`n`n生成时间：$(Get-Date -Format 'yyyy-MM-dd HH:mm')　账号：$Owner`n`n| 仓库 | 可见性 | 体积 MB | Topics | 结论 | 问题 |`n| --- | --- | --- | --- | --- | --- |"
-  $body = $rows | Sort-Object 体积MB -Descending | ForEach-Object {
-    "| {0} | {1} | {2} | {3} | {4} | {5} |" -f $_.仓库, $_.可见性, [math]::Round($_.体积MB,1), $_.Topics, $_.结论, $_.问题
-  }
-  Set-Content -Path "repo-audit-report.md" -Value (($head, $body -join "`n")) -Encoding utf8
+  $head = @"
+# 仓库体检报告
+
+生成时间：$(Get-Date -Format 'yyyy-MM-dd HH:mm')　账号：$Owner
+
+| 仓库 | 可见性 | 体积 MB | Topics | 结论 | 问题 |
+| --- | --- | --- | --- | --- | --- |
+"@
+  $body = ($sorted | ForEach-Object {
+    "| {0} | {1} | {2} | {3} | {4} | {5} |" -f $_.仓库, $_.可见性, $_.体积MB, $_.Topics, $_.结论, $_.问题
+  }) -join "`n"
+  Set-Content -Path "repo-audit-report.md" -Value ($head + $body) -Encoding utf8
   Write-Output "已写入 repo-audit-report.md"
 }
