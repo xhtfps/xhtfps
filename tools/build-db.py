@@ -68,6 +68,8 @@ def parse_pinmap(csv_text, board, drv_hint):
         if not parts or len(parts) < 2:
             continue
         net = parts[idx.get('net', 1)].strip()
+        if not net:
+            continue   # 模板里的空占位行
         mcu_pin = parts[idx.get('mcu_pin', 2)].strip() if idx.get('mcu_pin', 2) < len(parts) else ''
         periph = parts[idx['peripheral']].strip() if 'peripheral' in idx and idx['peripheral'] < len(parts) else ''
         pin_name = parts[idx['pin_name']].strip() if 'pin_name' in idx and idx['pin_name'] < len(parts) else ''
@@ -267,4 +269,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
 

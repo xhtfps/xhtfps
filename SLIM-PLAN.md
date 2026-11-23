@@ -31,6 +31,8 @@
 | `electronics-competition` | ST StdPeriph 库 3,150 个文件（ST 官网可重下，模板代码保留） | 79.0 MB | `a2ab4a6e` |
 | `smart_robot` | `firefly_e10_s1110.pth`（81.1 MB）、`yolo26s.pt`×2（各 19.5 MB）、`pcd_data` 图片集（约 80 MB） | 200.1 MB | `fa24a3db` |
 
+台账共 **278 条**：253 个 PDF + 25 个非 PDF 资产（`smart_robot` 的权重与 `pcd_data` 数据集，`kind=trim`），后者用 `notes/tools/fetch-assets.py` 一条命令取回。
+
 ## 2. 现在的体积（HEAD 检出体积，`git/trees` blob 求和）
 
 | 仓库 | 瘦身前 | 现在 | 还剩什么 |

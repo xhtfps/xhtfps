@@ -122,7 +122,7 @@
 **第五轮（数据库化）**：把“整理好的文件柜”变成“可查询的库”。
 
 - 新增 [`bsp-libs`](https://github.com/xhtfps/bsp-libs)：`drivers/<chip>/` 一颗芯片一份驱动（已迁 AD9959、ADS1256、MPU6050），配 `driver.json` 元数据；`hardware/<board>/pinmap.csv` + `BOM.csv` 描述接线与器件；`tools/check-driver.ps1` 校验引脚落地与文件存在性。
-- 新增 [`notes`](https://github.com/xhtfps/notes)：`troubleshooting.md`（75 条跨仓排错，脚本从各仓 README 抽取）+ `manuals.md`（仓内现存 110 个 PDF + 已移出 253 个 PDF/570.5 MB 的带链接台账），生成脚本 `tools/build-notes.ps1`。
+- 新增 [`notes`](https://github.com/xhtfps/notes)：`troubleshooting.md`（83 条跨仓排错，脚本从各仓 README 抽取）+ `manuals.md`（仓内现存 110 个 PDF + 已移出 253 个 PDF/570.5 MB 的带链接台账），生成脚本 `tools/build-notes.ps1`。
 - 索引自动化收尾：`catalog.json` 改用真实 HEAD 体积（`git/trees` 求和）与 `diskUsage` 双口径；`build-index.ps1` 修掉 `size` 字段取值错误。
 - 新增 `tools/health-check.ps1` 与 `.github/workflows/catalog-audit.yml`：每天北京时间 10:00 自动重跑索引与体检，有变化自动提交 `catalog.json` / `README.md` / `HEALTH.md`。
 - 统一 topics：`TOPICS.md` 定词表，`tools/set-topics.ps1` 已按词表重写全部 25 个仓的标签。
@@ -200,9 +200,9 @@ pwsh -File .\tools\slim-history.ps1 -Repo zynq-navigator-board
 | --- | --- | --- |
 | `repos` | 25 | 仓库级元数据：分类、芯片、板卡、技术栈、状态、`status_since`、HEAD 体积、topics |
 | `drivers` | 3 | `bsp-libs` 驱动：芯片、接口、平台、源仓与源文件、坑注 |
-| `pins` | 43 | 信号—引脚：`driver_id / board / net / mcu_pin / direction`，board 为空表示驱动要求、未接线 |
+| `pins` | 63 | 信号—引脚：`driver_id / board / net / mcu_pin / direction`，board 为空表示驱动要求、未接线 |
 | `docs` | 388 | 手册与资料：`state=head` 在仓内、`state=offloaded` 已移出（`url` 指向 `base_commit`） |
-| `troubles` | 75 | 跨仓排错：现象 / 原因解法 / 来源仓 |
+| `troubles` | 83 | 跨仓排错：现象 / 原因解法 / 来源仓 |
 | `usages` | 117 | 驱动落点：哪颗驱动在哪个仓的哪个路径出现过（实测 AD9959 分散在 8 个仓、30+ 份副本） |
 
 常用查询（在本机加 `--json` 可给程序用）：
