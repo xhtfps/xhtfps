@@ -13,8 +13,8 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | [esp32-k230-ai](https://github.com/xhtfps/esp32-k230-ai) | ESP32-S3 与 K230 双板协作的边缘 AI 视觉工程（双板联调、机器人集成、语音交互） | 公开 | ESP32-S3 + K230 / 自制双板 | ESP-IDF · CanMV MicroPython | 47 MB | 维护中 |
 | [freertos-labs](https://github.com/xhtfps/freertos-labs) | STM32F407 + FreeRTOS 课程实验全集（00 工程模板 + 01-10 实验） | 公开 | STM32F407ZGT6 / 正点原子 探索者 V3 | Keil MDK · FreeRTOS 10 | 142 MB | 已完成 |
-| [stm32-cubemx-labs](https://github.com/xhtfps/stm32-cubemx-labs) | STM32 CubeMX HAL 工程集（LED/KEY/TIM/USART/ADC/FreeRTOS）与标准外设库工程模板 | 公开 | STM32（型号见各工程） / 无固定板卡 | CubeMX HAL · 标准外设库 | 241 MB | 新建 |
-| [stm32f4-projects](https://github.com/xhtfps/stm32f4-projects) | STM32F407 工程集：基地调试程序（5 个子工程）、工程模板、往年与电赛题目 | 公开 | STM32F407ZGT6 / 正点原子 探索者 V3 | Keil MDK · HAL/标准库 | 250 MB | 维护中 |
+| [stm32-cubemx-labs](https://github.com/xhtfps/stm32-cubemx-labs) | STM32 CubeMX HAL 工程集（LED/KEY/TIM/USART/ADC/FreeRTOS）与标准外设库工程模板 | 公开 | STM32（型号见各工程） / 无固定板卡 | CubeMX HAL · 标准外设库 | 228 MB | 新建 |
+| [stm32f4-projects](https://github.com/xhtfps/stm32f4-projects) | STM32F407 工程集：基地调试程序（5 个子工程）、工程模板、往年与电赛题目 | 公开 | STM32F407ZGT6 / 正点原子 探索者 V3 | Keil MDK · HAL/标准库 | 219 MB | 维护中 |
 | [stm32h7-projects](https://github.com/xhtfps/stm32h7-projects) | STM32H743 工程集：裸机、FreeRTOS、LVGL 模板，LTDC 液晶驱动，谐波测量结项 | 公开 | STM32H743 / AT070TN83 7 寸屏 | Keil MDK · HAL · FreeRTOS · LVGL | 56 MB | 维护中 |
 | [zynq-fpga-projects](https://github.com/xhtfps/zynq-fpga-projects) | ZYNQ-7020 FPGA 基础工程集：呼吸灯、按键、数码管、RAM/FIFO/时钟 IP 核 | 公开 | ZYNQ-7020 / 正点原子 领航者 | Vivado · Verilog/VHDL | 72 MB | 维护中 |
 
@@ -27,7 +27,7 @@
 | [lissajous-figure-device](https://github.com/xhtfps/lissajous-figure-device) | 2026 电赛 F 题：基于 STM32F407 的李萨如图形显示控制装置 | 公开 | STM32F407 / 自建装置（DAC 输出） | Keil MDK · DAC/DMA | 14 MB | 维护中 |
 | [nir-moisture-meter](https://github.com/xhtfps/nir-moisture-meter) | 在线式双波长近红外水分仪：STM32 固件 + 上位机 + Modbus 协议 + 硬件/EDA 交付资料 | 私有 | STM32 / 自建近红外水分仪 | Keil MDK · Modbus · 上位机 | 28 MB | 维护中 |
 | [RLC_dac_study_flash](https://github.com/xhtfps/RLC_dac_study_flash) | RLC 阻抗测量仪（结项）：F407 DAC 激励 + 双 ADC 采样 + FFT 解算，附 AD9959/ADF4351/AD8370 驱动与 CMSIS-DSP | 公开 | STM32F407ZGT6 / 基地板 | Keil MDK · HAL · CMSIS-DSP | 28 MB | 已完成 |
-| [smart_robot](https://github.com/xhtfps/smart_robot) | 智能机器人（软件侧）：语音交互 + Whisper 识别 + GPT-SoVITS 合成 + OpenCV/YOLO 视觉 + URDF 模型 | 私有 | PC（外接麦克风/摄像头） / — | Python · Whisper · GPT-SoVITS · YOLO | 291 MB | 维护中 |
+| [smart_robot](https://github.com/xhtfps/smart_robot) | 智能机器人（软件侧）：语音交互 + Whisper 识别 + GPT-SoVITS 合成 + OpenCV/YOLO 视觉 + URDF 模型 | 私有 | PC（外接麦克风/摄像头） / — | Python · Whisper · GPT-SoVITS · YOLO | 52 MB | 维护中 |
 | [STM32F407-LVGL-SSD1963](https://github.com/xhtfps/STM32F407-LVGL-SSD1963) | 六足平衡机器人（STM32F407 + LVGL + SSD1963 + PS2 手柄 + 触摸屏 UI） | 私有 | STM32F407ZGT6 / 六足机器人自建板 | Keil MDK · LVGL · SSD1963 | 57 MB | 维护中 |
 
 ### 1.3 竞赛与课程（5）
@@ -35,19 +35,19 @@
 | 仓库 | 定位 | 可见性 | 芯片 / 板卡 | 技术栈 | 体积 | 状态 |
 | --- | --- | --- | --- | --- | --- | --- |
 | [dl-pytorch-course](https://github.com/xhtfps/dl-pytorch-course) | PyTorch 深度学习课程：CNN/LSTM 代码、数据与课堂笔记 | 公开 | PC/GPU / — | PyTorch 2.x · CNN/LSTM | 36 MB | 已完成 |
-| [electronics-competition](https://github.com/xhtfps/electronics-competition) | 电赛/校赛项目与资料库：示波器、信号发生器、超声波测距、2025 G 题（含第三方资料，私有） | 私有 | STM32F407 等 / 历年赛题平台 | Keil MDK · STM32 | 218 MB | 维护中 |
+| [electronics-competition](https://github.com/xhtfps/electronics-competition) | 电赛/校赛项目与资料库：示波器、信号发生器、超声波测距、2025 G 题（含第三方资料，私有） | 私有 | STM32F407 等 / 历年赛题平台 | Keil MDK · STM32 | 132 MB | 维护中 |
 | [math-modeling-2025](https://github.com/xhtfps/math-modeling-2025) | 2025 数模 B 题代码：学生成绩与焦虑相关问题 Q1-Q4（Python） | 私有 | PC / — | Python · 数模求解 | 3 MB | 已完成 |
 | [opencv-basics](https://github.com/xhtfps/opencv-basics) | OpenCV + Python 图像处理入门代码与示例 | 公开 | PC / — | Python · OpenCV | 1 MB | 已完成 |
-| [shuweibei-cup-b2026](https://github.com/xhtfps/shuweibei-cup-b2026) | 2026 数维杯国际赛 B 题：四问求解代码、模型推导报告、论文多版修改稿与支撑材料 | 私有 | PC / — | Python · 数模求解 | 171 MB | 进行中 |
+| [shuweibei-cup-b2026](https://github.com/xhtfps/shuweibei-cup-b2026) | 2026 数维杯国际赛 B 题：四问求解代码、模型推导报告、论文多版修改稿与支撑材料 | 私有 | PC / — | Python · 数模求解 | 129 MB | 进行中 |
 
 ### 1.4 资料库（4）
 
 | 仓库 | 定位 | 可见性 | 芯片 / 板卡 | 技术栈 | 体积 | 状态 |
 | --- | --- | --- | --- | --- | --- | --- |
 | [hardware-course-materials](https://github.com/xhtfps/hardware-course-materials) | 硬件零基础课程资料：课件、Multisim 仿真工程、OrCAD/Altium 封装库与辅助表格 | 私有 | — / 硬件零基础课程 | Multisim · OrCAD/Altium（只读） | 14 MB | 只读归档 |
-| [stm32f4-reference-materials](https://github.com/xhtfps/stm32f4-reference-materials) | STM32F407 参考资料与例程：基地板调试程序、AD9959、LVGL、FreeRTOS 模板、示波器工程 | 私有 | STM32F407 / 本机资料盘归档 | 例程/手册（只读） | 375 MB | 只读归档 |
-| [stm32f407-board-materials](https://github.com/xhtfps/stm32f407-board-materials) | 正点原子探索者 V3（STM32F407ZGT6）开发板资料：文档、原理图、例程与硬件资料 | 私有 | STM32F407ZGT6 / 正点原子 探索者 V3 | 厂商文档/原理图/例程（只读） | 294 MB | 只读归档 |
-| [zynq-navigator-board](https://github.com/xhtfps/zynq-navigator-board) | 正点原子领航者 ZYNQ 开发板资料索引：教程、原理图、引脚表、FPGA/Vitis/Linux 源码（第三方资料） | 私有 | ZYNQ-7020 / 正点原子 领航者 | 厂商文档/源码（只读） | 480 MB | 只读归档 |
+| [stm32f4-reference-materials](https://github.com/xhtfps/stm32f4-reference-materials) | STM32F407 参考资料与例程：基地板调试程序、AD9959、LVGL、FreeRTOS 模板、示波器工程 | 私有 | STM32F407 / 本机资料盘归档 | 例程/手册（只读） | 200 MB | 只读归档 |
+| [stm32f407-board-materials](https://github.com/xhtfps/stm32f407-board-materials) | 正点原子探索者 V3（STM32F407ZGT6）开发板资料：文档、原理图、例程与硬件资料 | 私有 | STM32F407ZGT6 / 正点原子 探索者 V3 | 厂商文档/原理图/例程（只读） | 104 MB | 只读归档 |
+| [zynq-navigator-board](https://github.com/xhtfps/zynq-navigator-board) | 正点原子领航者 ZYNQ 开发板资料索引：教程、原理图、引脚表、FPGA/Vitis/Linux 源码（第三方资料） | 私有 | ZYNQ-7020 / 正点原子 领航者 | 厂商文档/源码（只读） | 52 MB | 只读归档 |
 
 ### 1.5 支撑库（2）
 
@@ -122,20 +122,37 @@
 **第五轮（数据库化）**：把“整理好的文件柜”变成“可查询的库”。
 
 - 新增 [`bsp-libs`](https://github.com/xhtfps/bsp-libs)：`drivers/<chip>/` 一颗芯片一份驱动（已迁 AD9959、ADS1256、MPU6050），配 `driver.json` 元数据；`hardware/<board>/pinmap.csv` + `BOM.csv` 描述接线与器件；`tools/check-driver.ps1` 校验引脚落地与文件存在性。
-- 新增 [`notes`](https://github.com/xhtfps/notes)：`troubleshooting.md`（83 条跨仓排错，脚本从各仓 README 抽取）+ `manuals.md`（364 个 PDF 的索引，659 MB 的去向台账），生成脚本 `tools/build-notes.ps1`。
+- 新增 [`notes`](https://github.com/xhtfps/notes)：`troubleshooting.md`（75 条跨仓排错，脚本从各仓 README 抽取）+ `manuals.md`（仓内现存 110 个 PDF + 已移出 253 个 PDF/570.5 MB 的带链接台账），生成脚本 `tools/build-notes.ps1`。
 - 索引自动化收尾：`catalog.json` 改用真实 HEAD 体积（`git/trees` 求和）与 `diskUsage` 双口径；`build-index.ps1` 修掉 `size` 字段取值错误。
 - 新增 `tools/health-check.ps1` 与 `.github/workflows/catalog-audit.yml`：每天北京时间 10:00 自动重跑索引与体检，有变化自动提交 `catalog.json` / `README.md` / `HEALTH.md`。
 - 统一 topics：`TOPICS.md` 定词表，`tools/set-topics.ps1` 已按词表重写全部 25 个仓的标签。
-- 大仓瘦身尚未执行，方案与每仓候选路径见 [`SLIM-PLAN.md`](SLIM-PLAN.md)。
+
+**第六轮（大仓瘦身，已执行两轮）**：全库 HEAD 从 **2,933 MB** 降到 **1,728 MB**，超 200 MB 的仓从 7 个降到 2 个。所有移出都走“普通提交 + 历史保留”，被移文件的 `base_commit` 与原路径逐条记在 [`notes/offload.json`](https://github.com/xhtfps/notes/blob/main/offload.json)，点开即能取回，不做 `force push`、不毁历史。
+
+| 轮次 | 仓库 | 移出内容 | 省下 | 提交 |
+| --- | --- | --- | --- | --- |
+| 1 | `zynq-navigator-board` | Vivado 工程产物 5,345 个（`.runs/.cache/.sim/.hw/.ip_user_files`、`.dcp/.jou/.log`） | 132 MB | `3a8be384` |
+| 1 | `zynq-navigator-board` | PDF 89 个 | 296 MB | `0be70b2a` |
+| 1 | `stm32f407-board-materials` | PDF 133 个 | 190 MB | `785919ed` |
+| 1 | `stm32f4-reference-materials` | LVGL `demos/` 副本、PDF 16 个 | 122 MB + 54 MB | `5c246df0` / `7105517a` |
+| 1 | `smart_robot` | Python `venv` | 38.5 MB | `7c625509` |
+| 1 | `stm32-cubemx-labs` | CMSIS 重复副本、逐文件清单 CSV | 13 MB + 10 MB | `91daec0d` |
+| 1 | `electronics-competition` | 历史拷贝 `.zip` 与 `uvguix` 垃圾 | 6.9 MB | `cf9f7b00` |
+| 1 | `shuweibei-cup-b2026` | 重复输出 PDF 69 个 | 60.5 MB | `04801294` |
+| 2 | `stm32f4-projects` | 参考资料 PDF 15 个 | 31 MB | `09a78eb9` |
+| 2 | `electronics-competition` | ST StdPeriph 标准库副本 3,150 个文件（ST 官网可重下） | 79 MB | `a2ab4a6e` |
+| 2 | `smart_robot` | 预训练权重 `firefly_e10_s1110.pth`、`yolo26s.pt`×2 与 `pcd_data` 图片集 | 200 MB | `fa24a3db` |
+
+取舍口径：**项目/竞赛仓里用户自己写的论文、题目、报告一律不删**（论文是成果本身）；只移厂商手册、上游可重下的库、预训练权重与数据集，并在台账留旧提交直链。方案与“为什么不再继续删”的边界见 [`SLIM-PLAN.md`](SLIM-PLAN.md)。
 
 ## 6. 仍然存在的缺陷
 
 | # | 问题 | 现状 | 建议 |
 | --- | --- | --- | --- |
-| 1 | 三个资料库体积偏大（全库 HEAD 合计约 2.9 GB）：`zynq-navigator-board` 480 MB、`stm32f4-reference-materials` 375 MB、`stm32f407-board-materials` 294 MB | 几乎全是厂商 PDF、视频、安装包 | 用 `tools/slim-history.ps1` 移出大文件后重写历史 |
+| 1 | 全库 HEAD 1,728 MB，仍有 2 个仓 ≥ 200 MB：`stm32-cubemx-labs` 228 MB、`stm32f4-projects` 219 MB | 两轮瘦身后剩下的都是工程可编译性依赖（各工程自带的 HAL/CMSIS 副本） | 再降只有两条路：拆公共库到 `bsp-libs` 后删各仓副本，或 history rewrite（需有网机器，见 `SLIM-PLAN.md`） |
 | 2 | 两个 F407 资料库各存一份 `STM32F407ZGT6.pdf`、`STM32F4xx参考手册`；`stm32f407-board-materials` 另有一批 `(1)` 后缀 PDF（经 blob SHA 比对并非完全重复，需逐个判断） | 下载重复与逐文件清单 | 每个手册只留一份；清单改 `EXCLUDED_FILES.md` 摘要 |
-| 3 | `smart_robot` 291 MB | 模型权重与依赖占大头 | 权重走 Release / LFS，README 写下载脚本 |
-| 4 | `stm32f4-projects` 250 MB | 含厂商手册与重复参考程序 | 同上，先跑体检再定移除路径 |
+| 3 | `smart_robot` 已从 291 MB 降到 52 MB | 权重与数据集已移出，`README` 的复现步骤仍指向旧路径 | 补一段“权重从哪来”的下载说明 |
+| 4 | `stm32f4-projects` 已从 250 MB 降到 219 MB | 剩下的是各工程自带的 `Drivers/CMSIS` 与旧工程 `.hex/.map` | 与 `freertos-labs` 共用的 CMSIS 可抽到 `bsp-libs`，暂未动 |
 | 5 | `electronics-competition` 同名目录嵌套、超长路径 | 历史拷贝，Windows 默认 clone 会失败 | `.gitattributes` 已注明 `core.longpaths`；彻底修需重排目录 |
 | 6 | 静态体检只在本机手动跑 | 已加 `catalog-audit.yml`，每日重跑索引与 `health-check.ps1` | CI 只做索引/体积/元数据检查，不做编译；结果看 `HEALTH.md` |
 | 7 | 分支保护未开 | 单人仓库开了会阻塞自己 push | 有意不开启，靠提交习惯约束 |

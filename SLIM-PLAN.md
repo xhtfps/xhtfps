@@ -1,93 +1,110 @@
-# 大仓瘦身计划（SLIM-PLAN）
+# 大仓瘦身（SLIM-PLAN · 已执行两轮）
 
-目标：把 7 个超 200 MB 的仓压到 200 MB 以下，全库 HEAD 体积从 **2,933 MB** 降到 **1.2 GB 以内**，同时保留每个文件的可追溯性（移出去的东西进 `notes` 手册索引或 Release）。
+结论先说：**全库 HEAD 已从 2,933 MB 降到 1,728 MB（−41%），超 200 MB 的仓从 7 个降到 2 个。** 原定的“1.2 GB 以内”在**不重写历史**的前提下不可达——剩下的体积是各工程自带的 HAL/CMSIS 副本，删掉工程就编不动。要再往下只有“抽公共库”或“history rewrite”两条路，见 §5。
 
-本文件只做计划与命令模板；**历史重写是不可逆操作**，执行前必须备份，且只能由本人在有网机器上跑。
+## 1. 已执行清单（普通提交，历史保留，可恢复）
 
-## 1. 现状（按 HEAD 检出体积实测）
+每一条移出的文件都记在 [`notes/offload.json`](https://github.com/xhtfps/notes/blob/main/offload.json)（`repo / path / size / base_commit`），打开 `https://github.com/xhtfps/<repo>/blob/<base_commit>/<path>` 就能取回原文件。
 
-| 仓库 | HEAD | 其中 PDF | 主要占用 | 处置优先级 |
-| --- | --- | --- | --- | --- |
-| `zynq-navigator-board` | 480 MB | 296 MB（89 个） | `4_Source_Code` 132 MB、`2_文档教程` 91 MB、`7_芯片数据手册` 61 MB、`9_底板资料` 60 MB | P0 |
-| `stm32f4-reference-materials` | 375 MB | 54 MB（16 个） | `14，LVGL学习资料` 59 MB、`freertos_project_template` 59 MB、`STM32F407ZGT6+SRAM` 58 MB | P1 |
-| `stm32f407-board-materials` | 294 MB | 190 MB（133 个） | `7，硬件资料` 117 MB（含 133 个 PDF，大量 `(1)` 重复） | P0 |
-| `smart_robot` | 291 MB | 0 | 模型权重、依赖包、录屏，无 PDF | P1 |
-| `stm32f4-projects` | 250 MB | 31 MB（15 个） | `往年题目` 74 MB（参考资料 PDF + 旧工程） | P2 |
-| `stm32-cubemx-labs` | 241 MB | 2 MB（1 个） | 10219 个文件，Hex/工程产物占大头，需先跑体检定位 | P2 |
-| `electronics-competition` | 218 MB | 19 MB（15 个） | 历史拷贝嵌套 + 超长路径 | P2 |
-| `shuweibei-cup-b2026` | 171 MB | 30 MB（69 个） | `B题代码` 70 MB、`论文+支撑材料` 37 MB | P3（未超线） |
+### 第一轮（2,933 → 2,038 MB）
 
-## 2. 处置原则
+| 仓库 | 移出内容 | 省下 | 提交 |
+| --- | --- | --- | --- |
+| `zynq-navigator-board` | Vivado 产物 5,345 个（`.ip_user_files/`、`.runs/`、`.cache/`、`.sim/`、`.hw/`、`.gen/`、`.rpx/.jou/.log/.dcp/.wdb`） | 132.1 MB | `3a8be384` |
+| `zynq-navigator-board` | PDF 89 个（芯片手册、教程） | 296.0 MB | `0be70b2a` |
+| `stm32f407-board-materials` | PDF 133 个（硬件资料目录） | 189.7 MB | `785919ed` |
+| `stm32f4-reference-materials` | LVGL `demos/` 副本 | 122.0 MB | `5c246df0` |
+| `stm32f4-reference-materials` | PDF 16 个 | 53.9 MB | `7105517a` |
+| `smart_robot` | Python `venv` | 38.5 MB | `7c625509` |
+| `stm32-cubemx-labs` | CMSIS 重复副本 | 13.0 MB | `91daec0d` |
+| `stm32-cubemx-labs` | 逐文件清单 `EXCLUDED_MANIFEST.csv`（10 MB）改摘要 | 10.0 MB | `91daec0d` |
+| `electronics-competition` | 历史拷贝 `.zip` 与 `uvguix` 垃圾 | 6.9 MB | `cf9f7b00` |
+| `shuweibei-cup-b2026` | 重复输出 PDF 69 个 | 60.5 MB | `04801294` |
 
-1. **PDF 全部出仓**：芯片手册、板级原理图、教程 PDF 改登记到 `notes` 的 [`manuals.md`](https://github.com/xhtfps/notes/blob/main/manuals.md)，仓里只留链接。厂商版权资料本来也不适合反复分发。
-2. **二进制与产物出仓**：`.hex/.bin/.zip/.rar/.7z/.iso/.mp4`、Vivado/ISE/Quartus 工程产物（`*.bit`、`*.hdf`、`project_*`、`*.dcp`）走 Release 或对象存储，README 写下载脚本。
-3. **重复文件先去重**：`(1)`、`(2)` 后缀与同名副本先在同一仓内删掉（普通 commit 即可，不必重写历史），能省 20–40 MB 且零风险。
-4. **源码不动**：`4_Source_Code` 里若是真源码就不删；只清 `*.bit`、`*.jou`、`*.log`、`*.str`、工程缓存。定删之前 `tools/slim-history.ps1 -Repo <仓>` 先看前 20 大文件。
-5. **一次一仓**：重写历史会改所有 SHA，不要批量并行，验收一仓再下一仓。
+> 插曲：`shuweibei` 这一轮误删了 `problem_4_timelines.csv`，已从父提交取回 blob 加回（`2d6d416f`）。这件事顺带验证了恢复路径：**任何被 trim 掉的文件，都能从该提交的父提交拿 blob SHA 重新挂回树**。
 
-## 3. 单仓执行步骤
+### 第二轮（2,038 → 1,728 MB）
+
+| 仓库 | 移出内容 | 省下 | 提交 |
+| --- | --- | --- | --- |
+| `stm32f4-projects` | 参考资料 PDF 15 个 | 31.0 MB | `09a78eb9` |
+| `electronics-competition` | ST StdPeriph 库 3,150 个文件（ST 官网可重下，模板代码保留） | 79.0 MB | `a2ab4a6e` |
+| `smart_robot` | `firefly_e10_s1110.pth`（81.1 MB）、`yolo26s.pt`×2（各 19.5 MB）、`pcd_data` 图片集（约 80 MB） | 200.1 MB | `fa24a3db` |
+
+## 2. 现在的体积（HEAD 检出体积，`git/trees` blob 求和）
+
+| 仓库 | 瘦身前 | 现在 | 还剩什么 |
+| --- | --- | --- | --- |
+| `stm32-cubemx-labs` | 241 MB | **228 MB** | 6 个 lab 各带一份 HAL/CMSIS |
+| `stm32f4-projects` | 250 MB | **219 MB** | 各工程自带 CMSIS + 旧工程 `.hex/.map` |
+| `stm32f4-reference-materials` | 375 MB | **200 MB** | FreeRTOS 模板、Altium 工程 |
+| `freertos-labs` | 142 MB | 142 MB | 每 lab 一份 HAL |
+| `electronics-competition` | 218 MB | 132 MB | 工程与模板 |
+| `shuweibei-cup-b2026` | 171 MB | 129 MB | 论文与支撑材料（用户成果，不删） |
+| `stm32f407-board-materials` | 294 MB | 104 MB | 程序源码 |
+| `zynq-navigator-board` | 480 MB | 52 MB | 源码与文档 |
+| `smart_robot` | 291 MB | 52 MB | 代码与配置 |
+| 全库合计 | 2,933 MB | **1,728 MB** | 超 200 MB：2 个 |
+
+体积口径：`head_size_kb` 来自 `git/trees?recursive=1` 对 blob 求和，是“clone 下来占多少”。`diskUsage` 要等 GitHub GC（几小时到一天），别用它判断瘦身效果。
+
+## 3. 取舍原则（这几条决定了哪些没删）
+
+1. **用户自己的成果不删**：论文、题目、报告、答辩材料（`shuweibei` 25 页论文、`electronics` G 题论文）一律留，哪怕它大。
+2. **厂商手册出仓**：芯片手册、板级原理图、教程 PDF 进 `notes/manuals.md` 台账，仓里不留。
+3. **上游可重下的可删**：ST StdPeriph、上游预训练权重、LVGL `demos/`——能从官网/上游仓库再拿到的，删了只是多跑一次下载。
+4. **工程产物与依赖必删**：Vivado `.runs/.cache`、`venv`、`node_modules`、`uvguix`，这些从来不该进仓。
+5. **工程可编译性优先**：工程自带的 `Drivers/` 是它独立编译的前提，不因省体积而破坏。这也是停在 1,728 MB 的原因。
+6. **不 rewrite**：本次全部走普通提交，旧 SHA 有效，`--mirror` 备份都不需要。
+
+## 4. 可复用命令（本次实际用的就是这三条）
 
 ```powershell
-# 0) 备份（必须，重写不可逆）
-git clone --mirror https://github.com/xhtfps/<repo>.git D:\backup\<repo>.git
+# 环境准备：绕开系统代理（本机 7897 端口有 TLS 中间人，会随机 EOF）
+$env:NO_PROXY='*'; Remove-Item Env:HTTP_PROXY,Env:HTTPS_PROXY,Env:ALL_PROXY -ErrorAction SilentlyContinue
+$c = ("protocol=https`nhost=github.com`n`n" | git credential fill) -split "`n"
+$env:GITHUB_TOKEN = (($c | Where-Object { $_ -like 'password=*' }) -replace '^password=','')
 
-# 1) 只读分析，看前 20 大文件与候选目录
-pwsh ./tools/slim-history.ps1 -Repo <repo>
+# 1) PDF 移出仓并记账（会追加写 notes/offload.json）
+D:\conda\envs\robot-pose\python.exe tools\offload_pdfs.py --repos <repo> --ledger notes\offload.json
+#    先看会删什么：加 --dry-run
 
-# 2) 确认路径后重写（示例：zynq 仓）
-pwsh ./tools/slim-history.ps1 -Repo zynq-navigator-board `
-    -Remove "7_芯片数据手册" `
-    -Remove "2_文档教程/配套PDF" `
-    -Apply
+# 2) 按路径/扩展名移出（正则，支持多模式与 --dry-run）
+D:\conda\envs\robot-pose\python.exe tools\gh_tool.py trim --repo <repo> --message "<提交说明>" --include '\.pth$' 'pcd_data/'
+
+# 3) 重算体积与体检
+pwsh -File repos\idx\tools\build-index.ps1 -Token $env:GITHUB_TOKEN
+pwsh -File repos\idx\tools\health-check.ps1
 ```
 
-脚本内部做的是：`git clone --bare` → `git filter-repo --path <dir> --invert-paths` → 加回 origin → `git push --force --all` + `--tags`。
+## 5. 要再往下压，只剩两条路（都未执行）
 
-## 4. 每仓候选清单（先核对再删）
+**A. 抽公共库（推荐，无需重写历史）**
+把 `freertos-labs`、`stm32-cubemx-labs`、`stm32f4-projects` 里重复的 HAL/CMSIS 收进 `bsp-libs` 的 `vendor/` 子模块或 Release 包，各仓改用脚本拉取。预期再省 300–400 MB，代价是这 3 个仓的“clone 即编译”要改成“跑一次 `tools/fetch-vendor.ps1`”。
 
-**zynq-navigator-board（P0，目标 −300 MB）**
-- `7_芯片数据手册`（61 MB，纯 PDF）
-- `2_文档教程` 下的 PDF 子目录（91 MB 里挑 PDF）
-- `9_领航者ZYNQ底板V3.7版本…`（60 MB，多为原理图/装配图 PDF）
-- `4_Source_Code` 里先删 `*.bit`、`*.dcp`、`*.hdf`、`*.jou`、`*.log`，不要动 `.v/.sv/.xdc`
+**B. history rewrite（要 `force push`，不可逆）**
+```powershell
+git clone --mirror https://github.com/xhtfps/<repo>.git D:\backup\<repo>.git   # 必须
+pip install git-filter-repo
+git filter-repo --path <dir> --invert-paths --force
+git remote add origin https://github.com/xhtfps/<repo>.git
+git push --force --all; git push --force --tags
+```
+本机 `github.com` 被 DNS 污染到 `57.155.223.240`（只有 `api.github.com` 直连可用），`clone --mirror` 与 `push --force` 都跑不了，**这一步只能由你在有网机器上执行**。重写后 `notes/offload.json` 里的 `base_commit` 链接会失效，需先导出 PDF 再重写。
 
-**stm32f407-board-materials（P0，目标 −190 MB）**
-- `7，硬件资料` 全目录（117 MB，133 个 PDF）。已用 blob SHA 比对过带 `(1)` 后缀的文件，**没有字节级重复**，只能整目录移出并登记 manuals.md，不能靠“删重复”省体积
-- 根目录 `FreeRTOS开发指南_V1.12.pdf`（15.7 MB）
-- `4，程序源码` 里的 `Objects/`、`Listings/`、`*.hex`
+## 6. 验收对照
 
-**stm32f4-reference-materials（P1，目标 −150 MB）**
-- `14，LVGL学习资料`（59 MB，PDF + 视频）
-- `freertos_project_template`（59 MB，与 `freertos-labs/00_…` 重复，删前先比对 SHA）
-- `STM32F407ZGT6+SRAM`（58 MB，含 Altium 工程与 PDF）
+| 标准 | 结果 |
+| --- | --- |
+| 超 200 MB 仓从 7 个降到 ≤ 2 个 | ✅ 2 个（228 / 219 MB），恰达线 |
+| 全库 HEAD ≤ 1.2 GB | ❌ 1,728 MB，不 rewrite 不可达（见 §5） |
+| 移出的文件都有去向 | ✅ 253 条 PDF 在 `notes/manuals.md`“已移出”段带 `base_commit` 直链；trim 类（Vivado/库/权重）记在本文 §1 提交号 |
+| 每个瘦身仓 README 写明“大文件去哪了” | ⬜ 仅在 `notes` 与本文有台账，各仓自身 README 未补（下一步） |
+| 不破坏历史 | ✅ 全程普通提交，旧 SHA 与旧 clone 均有效 |
 
-**smart_robot（P1，目标 −150 MB）**
-- 模型权重（`*.pth`、`*.onnx`、`*.bin`）移 Release，README 写 `tools/download-weights.ps1`
-- 录屏与演示视频（`*.mp4`）移 Release 或直接删
-- `site-packages`、`venv`、`node_modules` 一类依赖目录（若存在，必须删）
+## 7. 风险与已知副作用
 
-**stm32f4-projects（P2，目标 −100 MB）**
-- `往年题目/超声波测距/参考资料`（20.6 MB 参考手册 + 若干原理图 PDF）
-- `往年题目/AD7606模块资料-V3.2/原理图PDF`
-- 其它 `往年题目/*/参考资料` 下的 PDF 与压缩包
-
-**stm32-cubemx-labs（P2，先诊断）**
-- 先跑 `tools/slim-history.ps1 -Repo stm32-cubemx-labs` 看前 20 大文件；241 MB 无 PDF，说明是 Hex/工程产物或`.rar` 安装包，按第 2 条原则处理
-
-**electronics-competition（P2，顺带修路径）**
-- 同名目录嵌套先扁平化（普通提交），再删 `*.zip`、`*.rar` 与重复 PDF
-- 同时在 `.gitattributes` 落 `core.longpaths=true`
-
-## 5. 验收标准
-
-- `HEALTH.md` 的“超 200 MB 仓”从 7 个降到 ≤ 2 个（允许 `smart_robot`、`zynq-navigator-board` 因权重与源码体积保留）。
-- 全库 HEAD 体积 ≤ 1.2 GB。
-- `notes/manuals.md` 覆盖所有被移出的 PDF 条目（跑一次 `tools/build-notes.ps1` 后 PDF 数应显著下降，且每条都能在索引里找到去向）。
-- 每个被瘦身的仓在 README 顶部有一行“大文件去哪了”的说明与 Release 链接。
-
-## 6. 风险
-
-- 重写后所有旧 clone 失效，需要重新 clone；如果还有别的机器在用这些仓，先同步。
-- GitHub 端不会立即回收空间，`diskUsage` 要等 GC（通常几小时到一天），以 `HEALTH.md` 的 HEAD 体积为准。
-- `filter-repo` 会删掉 `origin` 远程，脚本已处理；若手工执行记得 `git remote add origin`。
-- 删错路径无法从 GitHub 恢复，只能靠第 0 步的 `--mirror` 备份。
+- GitHub 端 `diskUsage` 不会立即下降，等 GC；以 `HEAD 体积` 为准。
+- `smart_robot`、`electronics-competition` 的 README 仍按旧路径写复现步骤，clone 后会发现文件不在——需补“从哪下载”。
+- `electronics-competition` 移走 StdPeriph 后，只依赖模板自带 `Libraries` 的工程仍可编译；若某工程直接引用 `STM32F4xx_DSP_StdPeriph_Lib_V1.9.0/`，需从 ST 官网补回。
+- 本机 PowerShell `Invoke-RestMethod` 在该链路会随机 `Received an unexpected EOF`，批量操作统一走 `tools/gh_tool.py`。
