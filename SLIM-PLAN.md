@@ -52,7 +52,7 @@ pwsh ./tools/slim-history.ps1 -Repo zynq-navigator-board `
 - `4_Source_Code` 里先删 `*.bit`、`*.dcp`、`*.hdf`、`*.jou`、`*.log`，不要动 `.v/.sv/.xdc`
 
 **stm32f407-board-materials（P0，目标 −190 MB）**
-- `7，硬件资料` 全目录（117 MB，133 个 PDF，含 `(1)` 重复；重复件直接删，其余登记 manuals.md）
+- `7，硬件资料` 全目录（117 MB，133 个 PDF）。已用 blob SHA 比对过带 `(1)` 后缀的文件，**没有字节级重复**，只能整目录移出并登记 manuals.md，不能靠“删重复”省体积
 - 根目录 `FreeRTOS开发指南_V1.12.pdf`（15.7 MB）
 - `4，程序源码` 里的 `Objects/`、`Listings/`、`*.hex`
 

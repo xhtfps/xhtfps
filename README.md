@@ -133,7 +133,7 @@
 | # | 问题 | 现状 | 建议 |
 | --- | --- | --- | --- |
 | 1 | 三个资料库体积偏大（全库 HEAD 合计约 2.9 GB）：`zynq-navigator-board` 480 MB、`stm32f4-reference-materials` 375 MB、`stm32f407-board-materials` 294 MB | 几乎全是厂商 PDF、视频、安装包 | 用 `tools/slim-history.ps1` 移出大文件后重写历史 |
-| 2 | 两个 F407 资料库各存一份 `STM32F407ZGT6.pdf`、`STM32F4xx参考手册`；`stm32f407-board-materials` 另有 8 对 `(1)` 重复 PDF | 下载重复与逐文件清单 | 每个手册只留一份；清单改 `EXCLUDED_FILES.md` 摘要 |
+| 2 | 两个 F407 资料库各存一份 `STM32F407ZGT6.pdf`、`STM32F4xx参考手册`；`stm32f407-board-materials` 另有一批 `(1)` 后缀 PDF（经 blob SHA 比对并非完全重复，需逐个判断） | 下载重复与逐文件清单 | 每个手册只留一份；清单改 `EXCLUDED_FILES.md` 摘要 |
 | 3 | `smart_robot` 291 MB | 模型权重与依赖占大头 | 权重走 Release / LFS，README 写下载脚本 |
 | 4 | `stm32f4-projects` 250 MB | 含厂商手册与重复参考程序 | 同上，先跑体检再定移除路径 |
 | 5 | `electronics-competition` 同名目录嵌套、超长路径 | 历史拷贝，Windows 默认 clone 会失败 | `.gitattributes` 已注明 `core.longpaths`；彻底修需重排目录 |
@@ -164,4 +164,4 @@ pwsh -File .\tools\set-topics.ps1 -DryRun
 pwsh -File .\tools\slim-history.ps1 -Repo zynq-navigator-board
 ```
 
-新增仓库时只改 `tools/catalog-rules.json` 的分类口径，再重跑脚本；不要手改 §1 的表格。
+新增仓库时只改 `tools/catalog-rules.json` 的分类口径，再重跑脚本；不要手改 §1 的表格。`catalog-audit` 工作流已在跑（每天北京时间 10:00），若首次运行失败，去 Settings → Actions → General 把 Workflow permissions 设为 “Read and write permissions”。
