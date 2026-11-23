@@ -20,6 +20,10 @@ concurrency:
   group: catalog-audit
   cancel-in-progress: true
 
+env:
+  # 私有仓枚举需要用户身份令牌；仅靠 GITHUB_TOKEN（安装令牌）读不到 /user/repos
+  CATALOG_TOKEN: ${{ secrets.CATALOG_TOKEN }}
+
 jobs:
   refresh:
     runs-on: ubuntu-latest
@@ -33,27 +37,45 @@ jobs:
       - name: 装依赖
         run: pip install requests
 
+      - name: 探测凭据权限
+        id: probe
+        env:
+          GH_TOKEN: ${{ env.CATALOG_TOKEN }}
+        run: |
+          if [ -n "$CATALOG_TOKEN" ] && gh api "/user/repos?per_page=1" >/dev/null 2>&1; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+            echo "凭据可用，执行全量刷新。"
+          else
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::未配置可用的 CATALOG_TOKEN（需 repo 权限的 PAT），本次跳过全量刷新。"
+          fi
+
       - name: 重新扫描仓库并刷新 catalog.json / README
+        if: steps.probe.outputs.ok == 'true'
         shell: pwsh
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ env.CATALOG_TOKEN }}
         run: ./tools/build-index.ps1 -Owner xhtfps
 
       - name: 生成体检报告 HEALTH.md
+        if: steps.probe.outputs.ok == 'true'
         shell: pwsh
         run: ./tools/health-check.ps1
 
       - name: 检查 README 引用（LINKS.md）
+        if: steps.probe.outputs.ok == 'true'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ env.CATALOG_TOKEN }}
         run: python tools/link-check.py
 
       - name: 重建查询库 embedded.db
+        if: steps.probe.outputs.ok == 'true'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ env.CATALOG_TOKEN }}
         run: python tools/build-db.py --owner xhtfps
 
       - name: 库自检（关键查询必须返回结果）
+        if: steps.probe.outputs.ok == 'true'
         run: |
           python tools/db.py stats
           python tools/db.py driver ad9959 --json | head -20
@@ -66,7 +88,12 @@ jobs:
           sys.exit(0 if q > 0 and d > 0 else 1)
           PY
 
+      - name: 导出站点数据 docs/data.json
+        if: steps.probe.outputs.ok == 'true'
+        run: python tools/export-site.py
+
       - name: 有变化才提交
+        if: steps.probe.outputs.ok == 'true'
         shell: bash
         run: |
           git config user.name  "github-actions[bot]"
@@ -75,6 +102,6 @@ jobs:
             echo "无变化，跳过提交"
             exit 0
           fi
-          git add catalog.json README.md HEALTH.md LINKS.md links.json embedded.db
+          git add catalog.json README.md HEALTH.md LINKS.md links.json embedded.db docs/data.json
           git commit -m "自动刷新：catalog / README / HEALTH / LINKS / embedded.db（$(date -u '+%Y-%m-%d %H:%M UTC')）"
           git push
