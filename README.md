@@ -21,7 +21,6 @@
 | --- | --- | --- | --- | --- | --- |
 | [RLC_dac_study_flash](https://github.com/xhtfps/RLC_dac_study_flash) | RLC 阻抗测量仪（结项）：DAC 激励 + 双 ADC + FFT | F407 + AD9959 | 公开 | 17 MB | 已完成 |
 | [STM32F407-LVGL-SSD1963](https://github.com/xhtfps/STM32F407-LVGL-SSD1963) | 六足平衡机器人：LVGL + SSD1963 + PS2 手柄 | F407 | 私有 | 57 MB | 维护中 |
-| [stm32f407-board-materials](https://github.com/xhtfps/stm32f407-board-materials) | 探索者 V3 开发板资料镜像 | 80 MB | 维护中 |
 | [nir-moisture-meter](https://github.com/xhtfps/nir-moisture-meter) | 在线式双波长近红外水分仪：固件 + 上位机 + Modbus | STM32 | 私有 | 25 MB | 维护中 |
 | [smart_robot](https://github.com/xhtfps/smart_robot) | 机器人软件侧：Whisper 识别 + GPT-SoVITS 合成 + YOLO 视觉 | Python | 私有 | 274 MB | 维护中 |
 
