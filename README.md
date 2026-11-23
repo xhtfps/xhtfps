@@ -1,6 +1,39 @@
+<div align="center">
+
 # XHTFPS · 嵌入式 / AI 视觉项目库
 
-个人工程总索引（GitHub 项目库入口）。全部仓库按“项目”归并：一个项目一个仓库，课程实验、基础模板作为子目录并入所属项目库，不再单独开仓库。统一格式与体积红线见 [`REPO-STANDARD.md`](https://github.com/xhtfps/xhtfps/blob/main/REPO-STANDARD.md)，全库体检用 [`tools/repo-audit.ps1`](https://github.com/xhtfps/xhtfps/blob/main/tools/repo-audit.ps1)，机器可读索引是 [`catalog.json`](https://github.com/xhtfps/xhtfps/blob/main/catalog.json)，每日体检结果在 [`HEALTH.md`](https://github.com/xhtfps/xhtfps/blob/main/HEALTH.md)。可复用驱动在 [`bsp-libs`](https://github.com/xhtfps/bsp-libs)，跨仓排错与手册索引在 [`notes`](https://github.com/xhtfps/notes)。
+**一个项目一个仓库：定位、边界、体积与体检结果都在这张地图里**
+
+![repos](https://img.shields.io/badge/repos-24%20content%20%2B%201%20index-0b5cad?style=flat-square)
+![audit](https://img.shields.io/badge/audit-daily%20CI-6f42c1?style=flat-square)
+![license](https://img.shields.io/badge/license-MIT-green?style=flat-square)
+
+[仓库地图](#1-仓库地图) · [仓库边界](#2-容易混的仓库边界在哪) · [格式规范](REPO-STANDARD.md)
+
+</div>
+
+## 这个仓库解决什么
+
+仓库一多，最先失控的不是代码，而是**边界**：同一份模板存了三份、同一个坑在五个 README 里各写一遍、半年后不知道某个仓该不该删。这里用一张自动生成的仓库地图 + 一份格式规范，把「哪个仓负责什么、体积多大、状态如何」固定下来。
+
+## 亮点
+
+- **地图自动生成**：`catalog.json` 是唯一数据源，README 表格由 `tools/build-index.ps1` 重写，不手改。
+- **每日体检**：`catalog-audit.yml` 每天北京时间 10:00 重跑索引与 `health-check.ps1`，有变化自动提交结果。
+- **边界可判定**：容易混的 10 组仓库写明区分口径（按板卡 / 按赛事 / 自己写的 vs 厂商资料）。
+- **体积可追溯**：每次瘦身都留 `base_commit`，`notes/offload.json` 点开即能取回，不做 force push。
+
+## 结构
+
+```mermaid
+flowchart LR
+  R["各仓库 README<br/>+ git trees"] --> B["build-index.ps1"]
+  B --> C["catalog.json<br/>机器可读"]
+  C --> M["README §1 仓库地图"]
+  R --> H["health-check.ps1"]
+  H --> HH["HEALTH.md"]
+  CI["catalog-audit.yml<br/>每日 10:00"] --> B
+```
 
 <!-- CATALOG:START -->
 ## 1. 仓库地图（24 个内容仓库 + 本索引）
@@ -122,7 +155,7 @@
 **第五轮（数据库化）**：把“整理好的文件柜”变成“可查询的库”。
 
 - 新增 [`bsp-libs`](https://github.com/xhtfps/bsp-libs)：`drivers/<chip>/` 一颗芯片一份驱动（已迁 AD9959、ADS1256、MPU6050），配 `driver.json` 元数据；`hardware/<board>/pinmap.csv` + `BOM.csv` 描述接线与器件；`tools/check-driver.ps1` 校验引脚落地与文件存在性。
-- 新增 [`notes`](https://github.com/xhtfps/notes)：`troubleshooting.md`（83 条跨仓排错，脚本从各仓 README 抽取）+ `manuals.md`（仓内现存 110 个 PDF + 已移出 253 个 PDF/570.5 MB 的带链接台账），生成脚本 `tools/build-notes.ps1`。
+- 新增 [`notes`](https://github.com/xhtfps/notes)：`troubleshooting.md`（75 条跨仓排错，脚本从各仓 README 抽取）+ `manuals.md`（仓内现存 110 个 PDF + 已移出 253 个 PDF/570.5 MB 的带链接台账），生成脚本 `tools/build-notes.ps1`。
 - 索引自动化收尾：`catalog.json` 改用真实 HEAD 体积（`git/trees` 求和）与 `diskUsage` 双口径；`build-index.ps1` 修掉 `size` 字段取值错误。
 - 新增 `tools/health-check.ps1` 与 `.github/workflows/catalog-audit.yml`：每天北京时间 10:00 自动重跑索引与体检，有变化自动提交 `catalog.json` / `README.md` / `HEALTH.md`。
 - 统一 topics：`TOPICS.md` 定词表，`tools/set-topics.ps1` 已按词表重写全部 25 个仓的标签。
@@ -145,21 +178,18 @@
 
 取舍口径：**项目/竞赛仓里用户自己写的论文、题目、报告一律不删**（论文是成果本身）；只移厂商手册、上游可重下的库、预训练权重与数据集，并在台账留旧提交直链。方案与“为什么不再继续删”的边界见 [`SLIM-PLAN.md`](SLIM-PLAN.md)。
 
-## 6. 缺陷与处置状态
+## 6. 仍然存在的缺陷
 
-| # | 问题 | 状态 | 处置 |
+| # | 问题 | 现状 | 建议 |
 | --- | --- | --- | --- |
-| 1 | 全库 HEAD 1,728 MB，仍有 2 个仓 ≥ 200 MB（`stm32-cubemx-labs` 228、`stm32f4-projects` 219） | **未解决**（策略性保留） | 剩下的是各工程自带的 HAL/CMSIS，删了工程编不动；再降只能抽公共库或 history rewrite，见 [`SLIM-PLAN.md`](SLIM-PLAN.md) |
-| 2 | 同一手册在多个仓各存一份 | 已解决 | 手册全部移出仓，统一进 [`notes/manuals.md`](https://github.com/xhtfps/notes/blob/main/manuals.md) 台账，仓里只留链接 |
-| 3 | `smart_robot` 权重/数据集移出后，clone 下来跑不起来 | 已解决 | 台账补记 25 个文件（`kind=trim`），新增 `notes/tools/fetch-assets.py`；一条命令按 `base_commit` 取回，README 已指过去 |
-| 4 | 各工程重复的 CMSIS 副本 | **未解决** | 与 1 同源，需先把公共库抽到 `bsp-libs` |
-| 5 | `electronics-competition` 同名目录嵌套、超长路径 | 部分解决 | `.gitattributes` 已开 `core.longpaths`；目录未重排 |
-| 6 | 体检只查体积，不查链接是否失效 | 已解决 | 新增 `tools/link-check.py`，把 README 里的文件名与仓内 HEAD / 移出台账比对，产出 [`LINKS.md`](LINKS.md)；首次跑出 3 处死链，已全部修掉，现为 0 |
-| 7 | 数据只有仓级粒度，问不到“芯片—引脚—驱动—落点” | 已解决 | 新增 `tools/build-db.py` → [`embedded.db`](embedded.db) 六张表；`tools/db.py` 提供 `repo/driver/pin/doc/trouble/usage/sql` 七个子命令 |
-| 8 | 没有查询入口，只能人眼看 JSON | 已解决 | `db.py` 命令行 + 豆包 Skill（见 §9）；CI 每夜重建并自检 |
-| 9 | AD9959 与 ADS1256 引脚硬冲突（PF2/PF4 双用） | 已解决（方案级） | [`bsp-libs/hardware/PIN-CONFLICTS.md`](https://github.com/xhtfps/bsp-libs/blob/main/hardware/PIN-CONFLICTS.md) 给出三条路线，方案 A 已落成 `example_f407_dual`（ADS1256 搬 SPI1 PA4–PA7）；**未上板验证** |
-| 10 | 分支保护未开 | 有意不改 | 单人仓库开了会阻塞自己 push，靠提交习惯约束 |
-| 11 | 所有写操作依赖本机 token，且本机 `github.com` 被 DNS 污染 | 部分缓解 | 读侧全部有 CI 兜底（每夜重建 catalog/HEALTH/LINKS/embedded.db）；本地脚本必须先 `NO_PROXY='*'` 清代理 |
+| 1 | 全库 HEAD 1,728 MB，仍有 2 个仓 ≥ 200 MB：`stm32-cubemx-labs` 228 MB、`stm32f4-projects` 219 MB | 两轮瘦身后剩下的都是工程可编译性依赖（各工程自带的 HAL/CMSIS 副本） | 再降只有两条路：拆公共库到 `bsp-libs` 后删各仓副本，或 history rewrite（需有网机器，见 `SLIM-PLAN.md`） |
+| 2 | 两个 F407 资料库各存一份 `STM32F407ZGT6.pdf`、`STM32F4xx参考手册`；`stm32f407-board-materials` 另有一批 `(1)` 后缀 PDF（经 blob SHA 比对并非完全重复，需逐个判断） | 下载重复与逐文件清单 | 每个手册只留一份；清单改 `EXCLUDED_FILES.md` 摘要 |
+| 3 | `smart_robot` 已从 291 MB 降到 52 MB | 权重与数据集已移出，`README` 的复现步骤仍指向旧路径 | 补一段“权重从哪来”的下载说明 |
+| 4 | `stm32f4-projects` 已从 250 MB 降到 219 MB | 剩下的是各工程自带的 `Drivers/CMSIS` 与旧工程 `.hex/.map` | 与 `freertos-labs` 共用的 CMSIS 可抽到 `bsp-libs`，暂未动 |
+| 5 | `electronics-competition` 同名目录嵌套、超长路径 | 历史拷贝，Windows 默认 clone 会失败 | `.gitattributes` 已注明 `core.longpaths`；彻底修需重排目录 |
+| 6 | 静态体检只在本机手动跑 | 已加 `catalog-audit.yml`，每日重跑索引与 `health-check.ps1` | CI 只做索引/体积/元数据检查，不做编译；结果看 `HEALTH.md` |
+| 7 | 分支保护未开 | 单人仓库开了会阻塞自己 push | 有意不开启，靠提交习惯约束 |
+| 8 | topics 已统一，但靠脚本维护 | 25 个仓已按 `TOPICS.md` 重写 | 新增仓先补 `catalog-rules.json`，再跑 `tools/set-topics.ps1` |
 
 ## 7. 命名约定
 
@@ -177,12 +207,6 @@ pwsh -File .\tools\build-index.ps1 -RenderOnly
 # 体检 + 索引一起跑
 pwsh -File .\tools\health-check.ps1
 
-# README 引用体检（产 LINKS.md / links.json）
-python .\tools\link-check.py
-
-# 重建查询库（产 embedded.db）
-python .\tools\build-db.py
-
 # 按 TOPICS.md 词表重写全部仓库的 topics（-DryRun 只看不写）
 pwsh -File .\tools\set-topics.ps1 -DryRun
 
@@ -190,38 +214,18 @@ pwsh -File .\tools\set-topics.ps1 -DryRun
 pwsh -File .\tools\slim-history.ps1 -Repo zynq-navigator-board
 ```
 
-新增仓库时只改 `tools/catalog-rules.json` 的分类口径，再重跑脚本；不要手改 §1 的表格。`catalog-audit` 工作流已在跑（每天北京时间 10:00，依次重建 catalog → HEALTH → LINKS → embedded.db 并自检），若首次运行失败，去 Settings → Actions → General 把 Workflow permissions 设为 “Read and write permissions”。
+新增仓库时只改 `tools/catalog-rules.json` 的分类口径，再重跑脚本；不要手改 §1 的表格。`catalog-audit` 工作流已在跑（每天北京时间 10:00），若首次运行失败，去 Settings → Actions → General 把 Workflow permissions 设为 “Read and write permissions”。
+## 路线图
 
-## 9. 查询库与豆包接入
+- [x] 索引与体检自动化，README 表格不再手写
+- [x] 24 个内容仓统一 topics、README 五段、排除摘要
+- [ ] 把「仓库外观规范」（徽章、结构图、路线图）纳入自动体检
+- [ ] 继续压 `stm32-cubemx-labs`、`stm32f4-projects` 两个大仓的体积
 
-`embedded.db` 是 SQLite，25 个仓的全部结构化信息都在这六张表里；`db.py` 是它的命令行门面。
+## 参与与反馈
 
-| 表 | 行数 | 内容 |
-| --- | --- | --- |
-| `repos` | 25 | 仓库级元数据：分类、芯片、板卡、技术栈、状态、`status_since`、HEAD 体积、topics |
-| `drivers` | 3 | `bsp-libs` 驱动：芯片、接口、平台、源仓与源文件、坑注 |
-| `pins` | 63 | 信号—引脚：`driver_id / board / net / mcu_pin / direction`，board 为空表示驱动要求、未接线 |
-| `docs` | 388 | 手册与资料：`state=head` 在仓内、`state=offloaded` 已移出（`url` 指向 `base_commit`） |
-| `troubles` | 83 | 跨仓排错：现象 / 原因解法 / 来源仓 |
-| `usages` | 117 | 驱动落点：哪颗驱动在哪个仓的哪个路径出现过（实测 AD9959 分散在 8 个仓、30+ 份副本） |
+本仓是个人项目索引，不对外接收 PR。发现索引与实际不符，按 [Issue 模板](.github/ISSUE_TEMPLATE) 提；安全事项见 [SECURITY.md](SECURITY.md)。
 
-常用查询（在本机加 `--json` 可给程序用）：
+## 许可证
 
-```powershell
-python .\tools\db.py stats
-python .\tools\db.py driver ads1256        # 驱动详情 + 各板引脚
-python .\tools\db.py pin PF4               # 反查：谁占了 PF4
-python .\tools\db.py usage ad9959          # 这颗芯片在哪些仓里出现过
-python .\tools\db.py doc 参考手册 --all     # 含已移出的手册
-python .\tools\db.py trouble J-Link        # 排错速查
-python .\tools\db.py sql "select repo,head_mb from repos where head_mb>150"
-```
-
-**豆包接入**：已装了一个 Skill（`doubao-embedded-db`），它会先 `embedded.db` 拉到本地缓存再查询。你直接问就行，例如：
-
-- “ADS1256 的 DOUT 接哪个脚、哪块板验证过”
-- “AD9959 驱动在哪些仓里有副本”
-- “上次那个 J-Link 连不上的问题怎么解的”
-- “哪几个仓还超 200 MB、为什么没继续瘦”
-
-口径说明：`status_since` 取“状态落定的日期”，结项/归档类目前用最近推送日近似（精确日期可在 `catalog-rules.json` 里加 `status_since` 覆盖）；`docs` 里 `offloaded` 条目的 `url` 一定指向移出前的提交，不是死链。
+本仓文档与脚本以 [MIT](LICENSE) 分发；被索引的各仓库按其自身许可证。
