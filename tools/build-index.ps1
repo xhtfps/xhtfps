@@ -208,6 +208,7 @@ else {
         $stack   = if ($rule -and $rule.stack) { $rule.stack } else { @($repo.language, ($repo.topics -join ', ')) | Where-Object { $_ } | Select-Object -First 1 }
         $status  = if ($rule -and $rule.status) { $rule.status } else { '维护中' }
         $category = if ($rule -and $rule.category) { $rule.category } else { Get-CategoryByRule -Name $repo.name }
+        $sizeKb   = if ($null -ne $repo.size) { [int]$repo.size } elseif ($null -ne $repo.diskUsage) { [int]$repo.diskUsage } else { 0 }
 
         $items.Add([pscustomobject][ordered]@{
             name          = $repo.name
@@ -217,7 +218,7 @@ else {
             stack         = [string]$stack
             status        = [string]$status
             visibility    = if ($repo.private) { '私有' } else { '公开' }
-            size_kb       = [int]$repo.diskUsage
+            size_kb       = $sizeKb
             head_size_kb  = Get-HeadSizeKb -Repo $repo.name -Branch $repo.default_branch
             language      = [string]$repo.language
             license       = if ($repo.license) { $repo.license.spdx_id } else { '' }
