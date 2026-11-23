@@ -28,6 +28,10 @@ function Invoke-Gh {
 }
 
 $json = Invoke-Gh @("repo","list",$Owner,"--limit","200","--json","name,isArchived,visibility,diskUsage,repositoryTopics,description")
+if($json -and $json -notmatch '^\s*\[') {
+  $i = $json.IndexOf('[')
+  if($i -ge 0) { $json = $json.Substring($i) }
+}
 if(-not $json) { throw "gh repo list 失败，先检查 gh auth status" }
 $repos = $json | ConvertFrom-Json
 $rows = @()
@@ -97,3 +101,4 @@ if($WriteReport) {
   Set-Content -Path "repo-audit-report.md" -Value ($head + $body) -Encoding utf8
   Write-Output "已写入 repo-audit-report.md"
 }
+
