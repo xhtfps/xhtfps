@@ -2,7 +2,7 @@
 
 个人工程总索引（GitHub 项目库入口）。全部仓库按“项目”归并：一个项目一个仓库，课程实验、基础模板不再单独开仓库，作为子目录并入对应项目库。统一格式与体积红线见 [`REPO-STANDARD.md`](https://github.com/xhtfps/xhtfps/blob/main/REPO-STANDARD.md)，全库体检用 [`tools/repo-audit.ps1`](https://github.com/xhtfps/xhtfps/blob/main/tools/repo-audit.ps1)。
 
-## 1. 仓库地图（14 个内容仓库 + 本索引）
+## 1. 仓库地图（15 个内容仓库 + 本索引）
 
 按角色分四类。同类仓库之间用“板卡工程 / 具体项目 / 赛事项目 / 厂商资料”的边界区分，内容不重叠。
 
@@ -32,11 +32,12 @@
 | [dl-pytorch-course](https://github.com/xhtfps/dl-pytorch-course) | 深度学习课程：CNN / LSTM 代码、数据与笔记 | PyTorch 2.x | 公开 | 27 MB | 已完成 |
 | [math-modeling-2025](https://github.com/xhtfps/math-modeling-2025) | 2025 数模 B 题 Q1–Q4 | Python | 私有 | 3 MB | 已完成 |
 
-**1.4 资料库**（第三方资料，只读不维护 · 私有 3）
+**1.4 资料库**（第三方资料与本机资料盘归档，只读不维护 · 私有 4）
 
 | 仓库 | 定位 | 体积 |
 | --- | --- | --- |
 | [stm32f407-board-materials](https://github.com/xhtfps/stm32f407-board-materials) | 正点原子探索者 V3：入门文档、原理图、例程源码、硬件与参考资料 | 365 MB |
+| [stm32f4-reference-materials](https://github.com/xhtfps/stm32f4-reference-materials) | 本机 F407 资料盘归档：基地板调试程序、AD9959 例程、LVGL、示波器、参考资料 | 424 MB |
 | [zynq-navigator-board](https://github.com/xhtfps/zynq-navigator-board) | 正点原子领航者 ZYNQ：教程、原理图、引脚表、FPGA/Vitis/Linux 源码 | 439 MB |
 | [hardware-course-materials](https://github.com/xhtfps/hardware-course-materials) | 硬件零基础课程：课件、Multisim 工程、OrCAD/Altium 封装库 | 14 MB |
 
@@ -47,6 +48,8 @@
 | 容易混 | 区分口径 |
 | --- | --- |
 | `stm32f4-projects` / `stm32f407-board-materials` | 前者是“我自己写的工程”，后者是“厂商原始资料与手册” |
+| `stm32f4-projects` / `stm32f4-reference-materials` | 前者是整理后的工程集（按工程组织、只留源码），后者是**本机资料盘原样备份**（含例程、手册、旧工程，不做二次整理） |
+| `stm32f407-board-materials` / `stm32f4-reference-materials` | 前者=厂商官方板卡资料；后者=我本机攒下的参考资料与例程。两者重叠的 2 份手册已注明以后者去重为准 |
 | `stm32f4-projects` / `electronics-competition` | 前者按**板卡**归口（模板、基地调试、历年题目），后者按**赛事**归口（单次竞赛的完整项目与资料） |
 | `RLC_dac_study_flash` / `electronics-competition` | 前者是单一结项仪器（RLC 阻抗测量仪），后者是资料合集；信号源、示波器内容不在两处重复存放 |
 | `smart_robot` / `STM32F407-LVGL-SSD1963` / `esp32-k230-ai` | 机器人三仓库：软件侧语音视觉 / F407 六足硬件 / ESP32+K230 双板联调 |
@@ -70,7 +73,7 @@
 | `k230-esp32-vision-link` | `esp32-k230-ai/K230+ESP32/ESP32` | 224 个同名文件中 220 个在新仓库，`components/BSP`、`docs`、`tests` 齐全 | 已删除 |
 | `dancing-robot-multimodal` | 无需并入 | 仅 9 个 ESP-IDF 骨架文件，无源码 | 已删除 |
 
-**28 → 14**：14 个归档空壳已全部删除，账号下只剩 14 个内容仓库 + 本索引。删除前已记录各仓库 HEAD SHA，90 天内可通过 GitHub Support 恢复，清单见 `GitHub仓库合并记录-2026-11-23.md`。
+**28 → 14 → 16**：14 个归档空壳已全部删除，内容仓库降到 14 个。同期并行的“本机资料盘归档”进程新建了 `stm32f407-board-materials`、`stm32f4-reference-materials` 两个资料库仓库，未参与本次合并，已按“资料库（原样备份）”归入索引。删除前已记录各仓库 HEAD SHA，90 天内可通过 GitHub Support 恢复，清单见 `GitHub仓库合并记录-2026-11-23.md`。
 
 ## 5. 已完成的三轮整理
 
@@ -90,8 +93,8 @@
 
 | # | 问题 | 现状 | 建议 |
 | --- | --- | --- | --- |
-| 1 | `stm32f407-board-materials` 365 MB、`zynq-navigator-board` 439 MB | 几乎全是厂商 PDF、视频、安装包 | 用 `tools/slim-history.ps1` 移出大文件后重写历史 |
-| 2 | `stm32f407-board-materials` 内有 8 对 `(1)` 重复 PDF、`EXCLUDED_MANIFEST.csv` 4.1 MB | 下载重复与逐文件清单 | 去重 + 改 `EXCLUDED_FILES.md` 摘要 |
+| 1 | `zynq-navigator-board` 439 MB、`stm32f4-reference-materials` 424 MB、`stm32f407-board-materials` 365 MB | 几乎全是厂商 PDF、视频、安装包 | 用 `tools/slim-history.ps1` 移出大文件后重写历史 |
+| 2 | `stm32f407-board-materials` 有 8 对 `(1)` 重复 PDF、4.1 MB 清单；两个资料库各存一份 `STM32F407ZGT6.pdf`、`STM32F4xx参考手册` | 下载重复与逐文件清单 | 只保留 `stm32f4-reference-materials` 一份手册，另一份删除；清单改 `EXCLUDED_FILES.md` 摘要 |
 | 3 | `smart_robot` 274 MB | 模型权重与依赖占大头 | 权重走 Release/LFS，README 写下载脚本 |
 | 4 | `stm32f4-projects` 140 MB | 含厂商手册与重复参考程序 | 同上，先跑体检再定移除路径 |
 | 5 | `electronics-competition` 同名目录嵌套、超长路径 | 历史拷贝，Windows 默认 clone 会失败 | `.gitattributes` 已注明 `core.longpaths`；彻底修需重排目录 |
