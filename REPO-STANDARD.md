@@ -16,7 +16,7 @@
 
 | 文件 | 作用 | 要求 |
 | --- | --- | --- |
-| `README.md` | 唯一入口文档 | 必须含下方六段 |
+| `README.md` | 唯一入口文档 | 必须含下方五段 |
 | `LICENSE` | 版权声明 | 公开工程用 MIT；含第三方资料用“保留所有权利 + 第三方说明” |
 | `.gitignore` | 阻止生成物入库 | 至少覆盖 `Output/`、`*.uvguix.*`、`JLinkLog.txt`、`__pycache__/` |
 | `.gitattributes` | 行尾与二进制判定 | `* text=auto eol=lf`，大文件标 `binary` |
@@ -39,9 +39,9 @@
 
 下列内容**一律不入库**，即使体积不大：训练权重（`*.pth/*.pt/*.ckpt/*.onnx`）、公开数据集原始批次、固件镜像（`*.hex/*.bin`，走 Release）、安装包（`*.zip/*.rar/*.exe/*.msi`）、厂商参考手册 PDF（放本地资料盘）、Vivado 中间产物（`*.dcp`、`sim_1/`、`.jobs/`）。
 
-历史已经胖起来的仓库，用 [`tools/slim-history.ps1`](tools/slim-history.ps1) 重写历史瘦身（会改 SHA，单人仓库才用）。
+已胖起来的历史仓库，用 [`tools/slim-history.ps1`](tools/slim-history.ps1) 重写历史瘦身（会改 SHA，单人仓库才用）。
 
-## 3. README 六段结构
+## 3. README 五段结构
 
 ```md
 # 项目名（一句话定位）
@@ -49,14 +49,13 @@
 （2-3 句：这是什么、解决什么问题、当前状态）
 
 ## 1. 目录一览
-## 2. 软硬件环境（表格：板卡 / MCU / IDE / 调试器 / 串口）
-## 3. 快速开始（编号步骤：打开哪个工程 → 编译 → 烧录 → 验证现象）
-## 4. 关键实现或易错点
-## 5. 常见问题（每个问题：现象 → 原因 → 处理）
-## 6. 维护说明（排除规则、合并去向、第三方版权）
+## 2. 环境（板卡 / MCU / IDE / 调试器 / 串口 / Python 依赖）
+## 3. 快速开始与关键实现（编号步骤 + 关键参数、易错点）
+## 4. 常见问题（每条：现象 → 原因 → 处理）
+## 5. 维护说明（排除规则、合并去向、第三方版权、LFS 说明）
 ```
 
-六段顺序不可调；缺段视为不合规。
+五段顺序不可调；缺段视为不合规。
 
 ## 4. 目录约定
 
@@ -78,4 +77,4 @@
 
 ## 7. 体检
 
-`pwsh -File .\tools\repo-audit.ps1` 可一次性检查全部仓库的必备文件、README 六段、topics 数量、描述、排除摘要与赘余 CSV，输出合规/需修清单；加 `-WriteReport` 会用 `repo-audit-report.md` 落盘。
+`pwsh -File .\tools\repo-audit.ps1` 可一次性检查全部仓库的必备文件、README 五段、topics 数量、描述、排除摘要与赘余 CSV，输出合规/需修清单；加 `-WriteReport` 会用 `repo-audit-report.md` 落盘。
