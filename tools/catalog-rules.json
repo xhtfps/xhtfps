@@ -159,5 +159,19 @@
     "board": "硬件零基础课程",
     "stack": "Multisim · OrCAD/Altium（只读）",
     "status": "只读归档"
+  },
+  "bsp-libs": {
+    "category": "支撑库",
+    "chip": "—",
+    "board": "—",
+    "stack": "C · PowerShell · CSV",
+    "status": "在建"
+  },
+  "notes": {
+    "category": "支撑库",
+    "chip": "—",
+    "board": "—",
+    "stack": "Markdown · PowerShell",
+    "status": "在用"
   }
 }

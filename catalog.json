@@ -1,9 +1,33 @@
 {
   "schema": 1,
   "owner": "xhtfps",
-  "generated_at": "2026-11-23T14:51:42+08:00",
-  "repo_count": 23,
+  "generated_at": "2026-11-23T15:08:01+08:00",
+  "repo_count": 25,
   "repos": [
+    {
+      "name": "bsp-libs",
+      "category": "支撑库",
+      "chip": "—",
+      "board": "—",
+      "stack": "C · PowerShell · CSV",
+      "status": "在建",
+      "visibility": "私有",
+      "size_kb": 0,
+      "head_size_kb": 120,
+      "language": "C",
+      "license": "MIT",
+      "topics": [],
+      "description": "嵌入式驱动库与板级硬件约定（drivers/ + hardware/pinmap.csv/BOM.csv）",
+      "default_branch": "main",
+      "pushed_at": "2026-11-23",
+      "html_url": "https://github.com/xhtfps/bsp-libs",
+      "readme_sections": 5,
+      "peripherals": [
+        "AD9959",
+        "ADS1256",
+        "MPU6050"
+      ]
+    },
     {
       "name": "dance-robot-esp32",
       "category": "具体项目",
@@ -66,7 +90,7 @@
       "stack": "Keil MDK · STM32",
       "status": "维护中",
       "visibility": "私有",
-      "size_kb": 85404,
+      "size_kb": 85409,
       "head_size_kb": 223344,
       "language": "C",
       "license": "NOASSERTION",
@@ -288,6 +312,28 @@
       ]
     },
     {
+      "name": "notes",
+      "category": "支撑库",
+      "chip": "—",
+      "board": "—",
+      "stack": "Markdown · PowerShell",
+      "status": "在用",
+      "visibility": "私有",
+      "size_kb": 0,
+      "head_size_kb": 193,
+      "language": "PowerShell",
+      "license": "",
+      "topics": [],
+      "description": "嵌入式调试知识库：跨仓排错速查 + 手册索引（脚本生成）",
+      "default_branch": "main",
+      "pushed_at": "2026-11-23",
+      "html_url": "https://github.com/xhtfps/notes",
+      "readme_sections": 0,
+      "peripherals": [
+        "AD9959"
+      ]
+    },
+    {
       "name": "opencv-basics",
       "category": "竞赛与课程",
       "chip": "PC",
@@ -403,7 +449,7 @@
       "stack": "CubeMX HAL · 标准外设库",
       "status": "新建",
       "visibility": "公开",
-      "size_kb": 0,
+      "size_kb": 21348,
       "head_size_kb": 247015,
       "language": "C",
       "license": "",
@@ -457,7 +503,7 @@
       "stack": "例程/手册（只读）",
       "status": "只读归档",
       "visibility": "私有",
-      "size_kb": 76744,
+      "size_kb": 76748,
       "head_size_kb": 384259,
       "language": "C",
       "license": "NOASSERTION",
@@ -581,7 +627,7 @@
       "status": "维护中",
       "visibility": "公开",
       "size_kb": 57,
-      "head_size_kb": 62,
+      "head_size_kb": 63,
       "language": "PowerShell",
       "license": "MIT",
       "topics": [

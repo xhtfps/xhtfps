@@ -1,11 +1,11 @@
 # XHTFPS · 嵌入式 / AI 视觉项目库
 
-个人工程总索引（GitHub 项目库入口）。全部仓库按“项目”归并：一个项目一个仓库，课程实验、基础模板作为子目录并入所属项目库，不再单独开仓库。统一格式与体积红线见 [`REPO-STANDARD.md`](https://github.com/xhtfps/xhtfps/blob/main/REPO-STANDARD.md)，全库体检用 [`tools/repo-audit.ps1`](https://github.com/xhtfps/xhtfps/blob/main/tools/repo-audit.ps1)，机器可读索引是 [`catalog.json`](https://github.com/xhtfps/xhtfps/blob/main/catalog.json)。
+个人工程总索引（GitHub 项目库入口）。全部仓库按“项目”归并：一个项目一个仓库，课程实验、基础模板作为子目录并入所属项目库，不再单独开仓库。统一格式与体积红线见 [`REPO-STANDARD.md`](https://github.com/xhtfps/xhtfps/blob/main/REPO-STANDARD.md)，全库体检用 [`tools/repo-audit.ps1`](https://github.com/xhtfps/xhtfps/blob/main/tools/repo-audit.ps1)，机器可读索引是 [`catalog.json`](https://github.com/xhtfps/xhtfps/blob/main/catalog.json)，每日体检结果在 [`HEALTH.md`](https://github.com/xhtfps/xhtfps/blob/main/HEALTH.md)。可复用驱动在 [`bsp-libs`](https://github.com/xhtfps/bsp-libs)，跨仓排错与手册索引在 [`notes`](https://github.com/xhtfps/notes)。
 
 <!-- CATALOG:START -->
-## 1. 仓库地图（22 个内容仓库 + 本索引）
+## 1. 仓库地图（24 个内容仓库 + 本索引）
 
-> 本节由 `tools/build-index.ps1` 生成，请勿手改；新增或改动仓库后重跑脚本。公开 11 个 / 私有 11 个。
+> 本节由 `tools/build-index.ps1` 生成，请勿手改；新增或改动仓库后重跑脚本。公开 11 个 / 私有 13 个。
 
 ### 1.1 板卡工程集（6）
 
@@ -48,6 +48,13 @@
 | [stm32f4-reference-materials](https://github.com/xhtfps/stm32f4-reference-materials) | STM32F407 参考资料与例程：基地板调试程序、AD9959、LVGL、FreeRTOS 模板、示波器工程 | 私有 | STM32F407 / 本机资料盘归档 | 例程/手册（只读） | 375 MB | 只读归档 |
 | [stm32f407-board-materials](https://github.com/xhtfps/stm32f407-board-materials) | 正点原子探索者 V3（STM32F407ZGT6）开发板资料：文档、原理图、例程与硬件资料 | 私有 | STM32F407ZGT6 / 正点原子 探索者 V3 | 厂商文档/原理图/例程（只读） | 294 MB | 只读归档 |
 | [zynq-navigator-board](https://github.com/xhtfps/zynq-navigator-board) | 正点原子领航者 ZYNQ 开发板资料索引：教程、原理图、引脚表、FPGA/Vitis/Linux 源码（第三方资料） | 私有 | ZYNQ-7020 / 正点原子 领航者 | 厂商文档/源码（只读） | 480 MB | 只读归档 |
+
+### 1.5 支撑库（2）
+
+| 仓库 | 定位 | 可见性 | 芯片 / 板卡 | 技术栈 | 体积 | 状态 |
+| --- | --- | --- | --- | --- | --- | --- |
+| [bsp-libs](https://github.com/xhtfps/bsp-libs) | 嵌入式驱动库与板级硬件约定（drivers/ + hardware/pinmap.csv/BOM.csv） | 私有 | — / — | C · PowerShell · CSV | 120 KB | 在建 |
+| [notes](https://github.com/xhtfps/notes) | 嵌入式调试知识库：跨仓排错速查 + 手册索引（脚本生成） | 私有 | — / — | Markdown · PowerShell | 193 KB | 在用 |
 
 > 体积 = HEAD 检出文件的真实体积（`git/trees?recursive=1` 求和）；`diskUsage`（含历史）仅作回退。分类、芯片、状态的权威口径在 `tools/catalog-rules.json`。
 
@@ -112,6 +119,15 @@
 - 修复 `stm32f4-projects` README 的 `EXCLUDED_MANIFEST.csv` 死链，删除仓库内 1.4 MB 的芯片手册 PDF。
 - `stm32-cubemx-labs` 的 10 MB 逐文件清单 `EXCLUDED_MANIFEST.csv` 改为 `EXCLUDED_FILES.md` 摘要。
 
+**第五轮（数据库化）**：把“整理好的文件柜”变成“可查询的库”。
+
+- 新增 [`bsp-libs`](https://github.com/xhtfps/bsp-libs)：`drivers/<chip>/` 一颗芯片一份驱动（已迁 AD9959、ADS1256、MPU6050），配 `driver.json` 元数据；`hardware/<board>/pinmap.csv` + `BOM.csv` 描述接线与器件；`tools/check-driver.ps1` 校验引脚落地与文件存在性。
+- 新增 [`notes`](https://github.com/xhtfps/notes)：`troubleshooting.md`（83 条跨仓排错，脚本从各仓 README 抽取）+ `manuals.md`（364 个 PDF 的索引，659 MB 的去向台账），生成脚本 `tools/build-notes.ps1`。
+- 索引自动化收尾：`catalog.json` 改用真实 HEAD 体积（`git/trees` 求和）与 `diskUsage` 双口径；`build-index.ps1` 修掉 `size` 字段取值错误。
+- 新增 `tools/health-check.ps1` 与 `.github/workflows/catalog-audit.yml`：每天北京时间 10:00 自动重跑索引与体检，有变化自动提交 `catalog.json` / `README.md` / `HEALTH.md`。
+- 统一 topics：`TOPICS.md` 定词表，`tools/set-topics.ps1` 已按词表重写全部 25 个仓的标签。
+- 大仓瘦身尚未执行，方案与每仓候选路径见 [`SLIM-PLAN.md`](SLIM-PLAN.md)。
+
 ## 6. 仍然存在的缺陷
 
 | # | 问题 | 现状 | 建议 |
@@ -121,9 +137,9 @@
 | 3 | `smart_robot` 291 MB | 模型权重与依赖占大头 | 权重走 Release / LFS，README 写下载脚本 |
 | 4 | `stm32f4-projects` 250 MB | 含厂商手册与重复参考程序 | 同上，先跑体检再定移除路径 |
 | 5 | `electronics-competition` 同名目录嵌套、超长路径 | 历史拷贝，Windows 默认 clone 会失败 | `.gitattributes` 已注明 `core.longpaths`；彻底修需重排目录 |
-| 6 | 无 CI | 嵌入式工程 CI 成本高，只做静态体检 | 暂以本地手动跑 `tools/repo-audit.ps1` |
+| 6 | 静态体检只在本机手动跑 | 已加 `catalog-audit.yml`，每日重跑索引与 `health-check.ps1` | CI 只做索引/体积/元数据检查，不做编译；结果看 `HEALTH.md` |
 | 7 | 分支保护未开 | 单人仓库开了会阻塞自己 push | 有意不开启，靠提交习惯约束 |
-| 8 | topics 词表不统一 | 多数仓库只有 `embedded` 之类的泛标签 | 待建 `TOPICS.md` 词表后批量补齐 |
+| 8 | topics 已统一，但靠脚本维护 | 25 个仓已按 `TOPICS.md` 重写 | 新增仓先补 `catalog-rules.json`，再跑 `tools/set-topics.ps1` |
 
 ## 7. 命名约定
 
@@ -139,7 +155,13 @@ pwsh -File .\tools\build-index.ps1
 pwsh -File .\tools\build-index.ps1 -RenderOnly
 
 # 体检 + 索引一起跑
-pwsh -File .\tools\repo-audit.ps1 -WriteReport
+pwsh -File .\tools\health-check.ps1
+
+# 按 TOPICS.md 词表重写全部仓库的 topics（-DryRun 只看不写）
+pwsh -File .\tools\set-topics.ps1 -DryRun
+
+# 大仓瘦身：先只读看前 20 大文件，确认路径再加 -Apply
+pwsh -File .\tools\slim-history.ps1 -Repo zynq-navigator-board
 ```
 
 新增仓库时只改 `tools/catalog-rules.json` 的分类口径，再重跑脚本；不要手改 §1 的表格。

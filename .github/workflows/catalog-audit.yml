@@ -1,0 +1,48 @@
+name: catalog-audit
+
+on:
+  schedule:
+    # 每天 02:00 UTC（北京时间 10:00）跑一次
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+  push:
+    paths:
+      - 'tools/build-index.ps1'
+      - 'tools/health-check.ps1'
+      - 'tools/catalog-rules.json'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: catalog-audit
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 重新扫描仓库并刷新 catalog.json / README
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./tools/build-index.ps1 -Owner xhtfps
+
+      - name: 生成体检报告 HEALTH.md
+        shell: pwsh
+        run: ./tools/health-check.ps1
+
+      - name: 有变化才提交
+        shell: bash
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [[ -z "$(git status --porcelain)" ]]; then
+            echo "无变化，跳过提交"
+            exit 0
+          fi
+          git add catalog.json README.md HEALTH.md
+          git commit -m "自动刷新：catalog.json / README 表格 / HEALTH 体检（$(date -u '+%Y-%m-%d %H:%M UTC')）"
+          git push
