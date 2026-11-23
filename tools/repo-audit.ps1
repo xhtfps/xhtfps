@@ -4,7 +4,6 @@
   用法：
     pwsh -File .\tools\repo-audit.ps1                  # 只在控制台输出
     pwsh -File .\tools\repo-audit.ps1 -WriteReport       # 同时写 repo-audit-report.md
-    pwsh -File .\tools\repo-audit.ps1 -Owner someone     # 体检别家账号
 
   依赖：gh CLI 已登录（gh auth status 显示有 repo 权限）。
   只读操作，不会改动任何仓库。
@@ -16,7 +15,7 @@ param(
 
 $ErrorActionPreference = "Continue"
 $RequiredFiles = @("README.md", "LICENSE", ".gitignore", ".gitattributes")
-$RequiredSections = @("## 1.", "## 2.", "## 3.", "## 4.", "## 5.", "## 6.")
+$RequiredSections = @("## 1. 目录", "## 2. 环境", "## 3. ", "## 4. 常见问题", "## 5. 维护说明")
 
 function Test-RepoFile {
   param($Repo, $Path)
@@ -43,12 +42,12 @@ foreach($r in ($repos | Where-Object { -not $_.isArchived })) {
   $readme = Get-RepoText $r.name "README.md"
   $missSec = @()
   foreach($s in $RequiredSections) {
-    if($readme -notmatch [regex]::Escape($s)) { $missSec += ($s -replace '## ','') }
+    if($readme -notmatch [regex]::Escape($s)) { $missSec += ($s -replace '## ','').TrimEnd() }
   }
 
   $mb = [math]::Round($r.diskUsage / 1024, 1)
   $topicCount = @($r.repositoryTopics).Count
-  $needSummary = ($r.diskUsage -gt 51200)   # 50 MB 以上应有排除摘要
+  $needSummary = ($r.diskUsage -gt 51200)
   $hasSummary = Test-RepoFile $r.name "EXCLUDED_FILES.md"
   $hasFatCsv  = Test-RepoFile $r.name "EXCLUDED_MANIFEST.csv"
 
@@ -57,8 +56,9 @@ foreach($r in ($repos | Where-Object { -not $_.isArchived })) {
   if($missSec.Count -gt 0)  { $issues += "README 缺段: " + ($missSec -join ",") }
   if($topicCount -lt 3)     { $issues += "topics=$topicCount<3" }
   if(-not $r.description)   { $issues += "无描述" }
-  if($needSummary -and -not $hasSummary) { $issues += "大仓库缺 EXCLUDED_FILES.md" }
+  if($needSummary -and -not $hasSummary) { $issues += ">50MB 缺 EXCLUDED_FILES.md" }
   if($hasFatCsv)            { $issues += "仍有逐文件 CSV" }
+  if($mb -gt 50)            { $issues += "体积 $mb MB 超红线" }
 
   $rows += [pscustomobject]@{
     仓库   = $r.name
@@ -71,7 +71,7 @@ foreach($r in ($repos | Where-Object { -not $_.isArchived })) {
 }
 
 $sorted = $rows | Sort-Object @{Expression={$_.结论 -ne "OK"}; Descending=$true}, @{Expression={$_.体积MB}; Descending=$true}
-$sorted | Format-Table 仓库, 可见性, 体积MB, Topics, 结论, 问题 -AutoSize | Out-String -Width 220 | Write-Output
+$sorted | Format-Table 仓库, 可见性, 体积MB, Topics, 结论, 问题 -AutoSize | Out-String -Width 240 | Write-Output
 
 $bad = @($rows | Where-Object { $_.结论 -ne "OK" }).Count
 Write-Output ("合计 {0} 个活跃仓库，合规 {1}，需修 {2}" -f $rows.Count, ($rows.Count - $bad), $bad)
