@@ -32,7 +32,7 @@
 ## 2. 仓库惯例
 
 - **一项目一仓库**：同一块板卡的工程放同一仓库，不再按“每次实验一个仓库”拆分。
-- **一仓库一 README**：六段结构（目录 / 环境 / 快速开始 / 关键实现 / 常见问题 / 维护说明）。
+- **一仓库一 README**：五段结构（目录 / 环境 / 快速开始与关键实现 / 常见问题 / 维护说明）。
 - **每个仓库都有 `LICENSE`、`.gitignore`、`.gitattributes`、≥ 3 个 topics**。
 - **只存可版本化的东西**：源码、文档、小型资源入库；编译产物、固件镜像、数据集、模型权重、安装包都不入库。
 - **排除清单只留摘要**：每个仓库一个 `EXCLUDED_FILES.md`，不存逐文件 CSV。
@@ -97,3 +97,4 @@ foreach($r in $gone){ gh repo delete "xhtfps/$r" --yes }
 ## 7. 命名约定
 
 见 [`REPO-STANDARD.md`](https://github.com/xhtfps/xhtfps/blob/main/REPO-STANDARD.md)：芯片类 `<芯片>-<主题>`，项目类全小写连字符，禁用 `code`/`test`/`new`/`temp`。
+
