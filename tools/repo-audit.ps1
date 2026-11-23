@@ -18,9 +18,9 @@ $RequiredFiles = @("README.md", "LICENSE", ".gitignore", ".gitattributes")
 $RequiredSections = @("## 1.", "## 2.", "## 3.", "## 4.", "## 5.")
 
 function Invoke-Gh {
-  param([string[]]$Args, [int]$Retry = 3)
+  param([string[]]$GhArgs, [int]$Retry = 3)
   for($i = 1; $i -le $Retry; $i++) {
-    $out = & gh @Args 2>$null | Out-String
+    $out = & gh @GhArgs 2>$null | Out-String
     if($LASTEXITCODE -eq 0 -and $out.Trim().Length -gt 0) { return $out }
     Start-Sleep -Milliseconds 400
   }
@@ -101,4 +101,5 @@ if($WriteReport) {
   Set-Content -Path "repo-audit-report.md" -Value ($head + $body) -Encoding utf8
   Write-Output "已写入 repo-audit-report.md"
 }
+
 
