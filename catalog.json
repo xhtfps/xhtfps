@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "owner": "xhtfps",
-  "generated_at": "2026-11-23T15:48:57+08:00",
+  "generated_at": "2026-11-23T16:01:35+08:00",
   "repo_count": 25,
   "repos": [
     {
@@ -12,7 +12,7 @@
       "stack": "C · PowerShell · CSV",
       "status": "在建",
       "visibility": "私有",
-      "size_kb": 0,
+      "size_kb": 48,
       "head_size_kb": 120,
       "language": "C",
       "license": "MIT",
@@ -95,7 +95,7 @@
       "status": "维护中",
       "visibility": "私有",
       "size_kb": 85409,
-      "head_size_kb": 135311,
+      "head_size_kb": 135312,
       "language": "C",
       "license": "NOASSERTION",
       "topics": [
@@ -316,7 +316,7 @@
       "status": "在用",
       "visibility": "私有",
       "size_kb": 0,
-      "head_size_kb": 193,
+      "head_size_kb": 263,
       "language": "PowerShell",
       "license": "",
       "topics": [
@@ -326,7 +326,7 @@
       "default_branch": "main",
       "pushed_at": "2026-11-23",
       "html_url": "https://github.com/xhtfps/notes",
-      "readme_sections": 0,
+      "readme_sections": 5,
       "peripherals": [
         "AD9959"
       ]
@@ -392,7 +392,7 @@
       "status": "进行中",
       "visibility": "私有",
       "size_kb": 69094,
-      "head_size_kb": 131665,
+      "head_size_kb": 131667,
       "language": "Python",
       "license": "",
       "topics": [
@@ -403,7 +403,7 @@
       "default_branch": "main",
       "pushed_at": "2026-11-23",
       "html_url": "https://github.com/xhtfps/shuweibei-cup-b2026",
-      "readme_sections": 0,
+      "readme_sections": 4,
       "peripherals": []
     },
     {
@@ -415,7 +415,7 @@
       "status": "维护中",
       "visibility": "私有",
       "size_kb": 280881,
-      "head_size_kb": 53241,
+      "head_size_kb": 53242,
       "language": "Python",
       "license": "NOASSERTION",
       "topics": [
@@ -445,7 +445,7 @@
       "status": "新建",
       "visibility": "公开",
       "size_kb": 21348,
-      "head_size_kb": 233591,
+      "head_size_kb": 233593,
       "language": "C",
       "license": "",
       "topics": [
@@ -456,7 +456,7 @@
       "default_branch": "main",
       "pushed_at": "2026-11-23",
       "html_url": "https://github.com/xhtfps/stm32-cubemx-labs",
-      "readme_sections": 0,
+      "readme_sections": 4,
       "peripherals": [
         "FreeRTOS"
       ]
@@ -470,7 +470,7 @@
       "status": "维护中",
       "visibility": "公开",
       "size_kb": 42858,
-      "head_size_kb": 224311,
+      "head_size_kb": 224312,
       "language": "C",
       "license": "MIT",
       "topics": [
@@ -626,7 +626,7 @@
       "status": "维护中",
       "visibility": "公开",
       "size_kb": 102,
-      "head_size_kb": 92,
+      "head_size_kb": 95,
       "language": "PowerShell",
       "license": "MIT",
       "topics": [
@@ -687,7 +687,7 @@
       "status": "只读归档",
       "visibility": "私有",
       "size_kb": 289468,
-      "head_size_kb": 52995,
+      "head_size_kb": 52996,
       "language": "VHDL",
       "license": "NOASSERTION",
       "topics": [

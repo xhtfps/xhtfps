@@ -54,7 +54,7 @@
 | 仓库 | 定位 | 可见性 | 芯片 / 板卡 | 技术栈 | 体积 | 状态 |
 | --- | --- | --- | --- | --- | --- | --- |
 | [bsp-libs](https://github.com/xhtfps/bsp-libs) | 嵌入式驱动库与板级硬件约定（drivers/ + hardware/pinmap.csv/BOM.csv） | 私有 | — / — | C · PowerShell · CSV | 120 KB | 在建 |
-| [notes](https://github.com/xhtfps/notes) | 嵌入式调试知识库：跨仓排错速查 + 手册索引（脚本生成） | 私有 | — / — | Markdown · PowerShell | 193 KB | 在用 |
+| [notes](https://github.com/xhtfps/notes) | 嵌入式调试知识库：跨仓排错速查 + 手册索引（脚本生成） | 私有 | — / — | Markdown · PowerShell | 263 KB | 在用 |
 
 > 体积 = HEAD 检出文件的真实体积（`git/trees?recursive=1` 求和）；`diskUsage`（含历史）仅作回退。分类、芯片、状态的权威口径在 `tools/catalog-rules.json`。
 

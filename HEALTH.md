@@ -1,6 +1,6 @@
 # 仓库体检（HEALTH）
 
-> 由 `tools/health-check.ps1` 定时生成（2026-11-23 15:48），基于 `catalog.json`，只看硬指标。
+> 由 `tools/health-check.ps1` 定时生成（2026-11-23 16:01），基于 `catalog.json`，只看硬指标。
 
 ## 1. 概览
 
@@ -11,7 +11,7 @@
 | 超 200 MB 的仓 | 2 个 |
 | 超过 180 天未更新 | 0 个 |
 | 没有 topics | 0 个 |
-| README 只有标题 | 3 个 |
+| README 只有标题 | 0 个 |
 
 ## 2. 体积红线（≥ 200 MB，按 HEAD 检出体积）
 
@@ -27,7 +27,7 @@
 ## 4. 元数据缺失
 
 - topics：全部仓库都有
-- README 过薄：notes、shuweibei-cup-b2026、stm32-cubemx-labs
+- README：全部有正文
 
 ## 5. 处置入口
 
