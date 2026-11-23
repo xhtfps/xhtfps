@@ -15,7 +15,8 @@ param(
 
 $ErrorActionPreference = "Continue"
 $RequiredFiles = @("README.md", "LICENSE", ".gitignore", ".gitattributes")
-$RequiredSections = @("## 1. 目录", "## 2. 环境", "## 3. ", "## 4. 常见问题", "## 5. 维护说明")
+# 只校验五段编号是否存在；段落名称允许带修饰（如“目录对应”“环境与编译”）
+$RequiredSections = @("## 1.", "## 2.", "## 3.", "## 4.", "## 5.")
 
 function Test-RepoFile {
   param($Repo, $Path)
@@ -42,7 +43,7 @@ foreach($r in ($repos | Where-Object { -not $_.isArchived })) {
   $readme = Get-RepoText $r.name "README.md"
   $missSec = @()
   foreach($s in $RequiredSections) {
-    if($readme -notmatch [regex]::Escape($s)) { $missSec += ($s -replace '## ','').TrimEnd() }
+    if($readme -notmatch [regex]::Escape($s)) { $missSec += ($s -replace '## ').TrimEnd('.') }
   }
 
   $mb = [math]::Round($r.diskUsage / 1024, 1)
